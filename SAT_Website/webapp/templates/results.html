@@ -1,0 +1,15 @@
+<div>
+    {% if email %}
+        <p>Name: {{ email.name | capfirst }}</p>
+        <p>Email: {{ email.Email }}</p>
+        <p>Email sent:
+            {% if email.EmailSent %}
+                True.
+            {% else %}
+                False.
+            {% endif %}
+        </p>
+    {% endif %}
+</div>
+<a href="/">Go back!</a>
+

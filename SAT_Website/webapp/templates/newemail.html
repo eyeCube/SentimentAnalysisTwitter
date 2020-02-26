@@ -1,0 +1,14 @@
+<p>Sorry, we don't have that information <em><strong>yet.</strong></em></p>
+<p>Enter your information to be notified when it is available:</p>
+<div>
+<form method="post" action="">
+    {% csrf_token %}
+    <p> Name: <input type="text" name="n" id="id_n" value="{{ query }}"/> </p>
+    <p> Email: <input type="text" name="e" id="id_e" value="{{ query }}"/></p>
+  <input type="submit" value="Submit" />
+</form>
+</div>
+<p> <strong>{{ text }}</strong></p>
+{% if isPost %}
+    <a href="/">Try a different search!</a>
+{% endif %}
