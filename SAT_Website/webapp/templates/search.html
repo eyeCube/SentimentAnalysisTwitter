@@ -1,4 +1,9 @@
+{% extends "base.html" %}
+{% block content %}
+
 <form method="get" action="/search/">
-  Search Database: <input type="text" name="q" id="id_q" value="{{ query }}"/>
+  Search Database: <input type="text" name="q" id="id_q" value="{{ query }}" required/>
   <input type="submit" value="Search" />
 </form>
+
+{% endblock content %}

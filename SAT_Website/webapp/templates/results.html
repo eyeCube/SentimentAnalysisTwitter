@@ -1,3 +1,6 @@
+{% extends "base.html" %}
+{% block content %}
+
 <div>
     {% if email %}
         <p>Name: {{ email.name | capfirst }}</p>
@@ -11,5 +14,6 @@
         </p>
     {% endif %}
 </div>
-<a href="/">Go back!</a>
+
+{% endblock content %}
 

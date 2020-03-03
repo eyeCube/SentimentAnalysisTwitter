@@ -21,5 +21,6 @@ from webapp import views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', views.home, name='home'),
-    path('search/', views.search, name='search')
+    path('new_search/', views.new_search, name='new_search'),
+    path('search/', views.search, name='search'),
 ]
