@@ -3,6 +3,7 @@ from textblob import TextBlob, tokenizers
 from meta import *
 from happy import DATA as HAPPY
 from sad import DATA as SAD
+from grammar import QUALIFIERS
 
 '''
     import nltk
@@ -11,6 +12,7 @@ from sad import DATA as SAD
 '''
 
 class G: # global data
+    text=None
     blob=None
     hashtags=None
 # end class
@@ -55,6 +57,7 @@ def test(text: str, _type: str) -> float:
 
 # happy
 def ishappy(text: str) -> float:
+    G.text = text
     G.blob = TextBlob(text)
     G.hashtags = extract_hashtags(text)
     quality = 0
@@ -87,24 +90,39 @@ def __try(_dict: dict) -> float:
     matches = []
     _improve_quality_of_hashtags(_dict)
     _add_common_misspellings(_dict)
-    hashtag = False
+    nextQuality = 0
     #
     # iterate over all nouns
-    for noun in blob.noun_phrases:
-        if '#'==noun:
-            hashtag = True
+    _tk = tokenizers.WordTokenizer()
+    for word in _tk.itokenize(G.text, include_punc=True): # blob.noun_phrases
+        # TODO: get and compare phrases instead of words (HOW TO?)
+        # (common word pairs -- words that commonly go together)
+        
+        # hashtags
+        if '#'==word:
+            nextQuality += 1
             continue
+        
+        # grammar context #
+        
+        # qualifiers
+        for k,v in QUALIFIERS.items():
+            if k == word:
+                nextQuality += v
+        
+        # matches with keywords / phrases
         for k,v in kwargs.items():
             # check for a match
-            if k == noun:
-                # check for context (negation?, etc.)
+            if k == word:
+                # check for context (negation?, qualifiers?, etc.)
+                    # qualifiers e.g. "very", "slightly" etc.
                 #   (TODO)
-                if hashtag:
-                    quality += 1
+                quality += nextQuality
                 quality += ranktof(v)
-                matches.append(noun)
+                matches.append(word)
         # end for
-        hashtag = False
+        
+        nextQuality = 0
     # end for
     
     # take into account the frequency of selected words
