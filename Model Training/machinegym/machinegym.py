@@ -1,24 +1,33 @@
+'''
+    machinegym.py
+    A module that contains functions for creating training data
+    for a machine learning model that analyzes the sentiments in
+    a body of text.
+'''
+
+''' necessary:
+>>>import textblob
+>>>import nltk
+>>>nltk.download('brown')
+>>>nltk.download('punkt')
+'''
 
 from textblob import TextBlob, tokenizers
+
 from meta import *
 from happy import DATA as HAPPY
 from sad import DATA as SAD
 from grammar import QUALIFIERS
 
-'''
-    import nltk
-    nltk.download('brown')
-    nltk.download('punkt')
-'''
-
 class G: # global data
-    text=None
     blob=None
-    hashtags=None
+    text=""
+    hashtags=set()
 # end class
 
-def init(): # call this before running any other scripts.
-    # negative ranks
+def init():
+    ''' call this before running any other scripts. '''
+    # add negative ranks
     temp={}
     for k,v in C__RANKTOF.items():
         k = min(C_S, abs(k)) * sign(k)
@@ -26,18 +35,19 @@ def init(): # call this before running any other scripts.
     for k,v in temp.items():
         C__RANKTOF[k] = v
 
-def ranktof(i: int) -> float:
+def ranktof(i: int) -> float: # convert C_ const into C__ const
+    ''' get the quality amount for a given integer rank '''
     ii = min(C_S, abs(i)) * sign(i)
     return C__RANKTOF.get(ii, 0) #math.sqrt(i)
-def sign(f: float) -> int:
+def sign(f: float) -> int: # numerical sign, positive, negative, or 0
     if f < 0: return -1
     if f > 0: return 1
     return 0
 
-def extract_hashtags(text: str) -> set:
+def extract_hashtags(text: str) -> set: # get words beginning with '#' (hashtags)
     return set(part[1:] for part in text.split(' ') if part.startswith('#'))
 
-def en_check(blob: TextBlob) -> bool:
+def en_check(blob: TextBlob) -> bool: # is language of text English?
     return ( blob.detect_language()=='en' )
 
 def test(text: str, _type: str) -> float:
@@ -56,16 +66,40 @@ def test(text: str, _type: str) -> float:
     #    sentiments    #
     #------------------#
 
+# generic
+def sentiment(func): # wrapper function to initialize an is_sentiment function
+    def inner(*args, **kwargs):
+        text = args[0]
+        G.text = text
+        G.blob = TextBlob(text)
+        G.hashtags = extract_hashtags(text)
+        return func(*args, **kwargs)
+    return inner
+    
 # happy
+@sentiment
 def ishappy(text: str) -> float:
-    G.text = text
-    G.blob = TextBlob(text)
-    G.hashtags = extract_hashtags(text)
     quality = 0
     n = 0
-    # try to match some sentimental words/phrases/hashtags
-    quality += try_generic_happy(); n+=1;
-    quality -= try_generic_sad(); n+=1;
+    # try to match words & context to change the disposition
+    quality += try_generic_happy()  # sentiments come in pairs + & -
+    quality -= try_generic_sad()    # each pair adds 1 to n
+    n+=1
+    #
+    if n!=1: quality /= n
+    return quality
+# end def
+
+# sad
+@sentiment
+def issad(text: str) -> float:
+    quality = 0
+    n = 0
+    # try to match words & context to change the disposition
+    quality -= try_generic_happy()
+    quality += try_generic_sad()
+    n+=1
+    #
     if n!=1: quality /= n
     return quality
 # end def
@@ -74,14 +108,22 @@ def ishappy(text: str) -> float:
     #     try     #
     #-------------#
 
+# try to match words in the dictionary
+
 # happy
 def try_generic_happy() -> float:
-    return __try(SAD)
+    temp={}
+    for k,v in HAPPY.items():
+        temp[k]=v
+    return __try(temp)
 # end def
 
 # sad
 def try_generic_sad() -> float:
-    return __try(HAPPY)
+    temp={}
+    for k,v in SAD.items():
+        temp[k]=v
+    return __try(temp)
 # end def
     
 def __try(_dict: dict) -> float:
@@ -154,6 +196,8 @@ def _improve_quality_of_hashtags(_dict: dict, quality=1):
 
 def _add_common_misspellings(_dict: dict, quality=-1):
     pass #TODO
+def _add_common_abbreviations(_dict: dict, quality=-1):
+    pass #TODO
 
 if __name__ == "__main__":
     init()
@@ -161,14 +205,19 @@ if __name__ == "__main__":
     words = []
     while (True):
         print("Enter the text to test: ")
-        text=input()
+        text = input()
         blob = TextBlob(text)
-        print("blob: ",blob)
-        for noun in blob.noun_phrases:
-            print(noun)
-        print("words...")
-        for word in _tk.itokenize(text):
-            words.append(word)
-            print(word.lower())
-##    print(test(input(), 'happy'))
+        print(test(input(), 'happy'))
+        
+##        print("blob: ",blob)
+##        for noun in blob.noun_phrases:
+##            print(noun)
+##        print("words...")
+##        for word in _tk.itokenize(text):
+##            words.append(word)
+##            print(word.lower())
+
+        
     
+
+
