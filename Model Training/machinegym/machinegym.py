@@ -27,7 +27,8 @@ def init(): # call this before running any other scripts.
         C__RANKTOF[k] = v
 
 def ranktof(i: int) -> float:
-    return C__RANKTOF.get(math.sqrt(i), 0)
+    ii = min(C_S, abs(i)) * sign(i)
+    return C__RANKTOF.get(ii, 0) #math.sqrt(i)
 def sign(f: float) -> int:
     if f < 0: return -1
     if f > 0: return 1
@@ -86,7 +87,7 @@ def try_generic_sad() -> float:
 def __try(_dict: dict) -> float:
     ''' Returns: (float, int,) | (quality, numMatches,) '''
     # init
-    quality = 0
+    quality = lastQuality = 0
     matches = []
     _improve_quality_of_hashtags(_dict)
     _add_common_misspellings(_dict)
@@ -102,13 +103,27 @@ def __try(_dict: dict) -> float:
         if '#'==word:
             nextQuality += 1
             continue
+        if '.'==word:
+            nextQuality = 0
+            lastQuality = 0
+            continue
+        
         
         # grammar context #
         
         # qualifiers
-        for k,v in QUALIFIERS.items():
+        for k,v in PREFIX_QUALIFIERS.items():
+            vm, va = v
             if k == word:
-                nextQuality += v
+                nextQuality += va
+                nextQuality *= vm
+                continue
+        for k,v in POSTFIX_QUALIFIERS.items():
+            vm, va = v
+            if k == word:
+                quality += va*lastQuality
+                quality *= vm*lastQuality
+                continue
         
         # matches with keywords / phrases
         for k,v in kwargs.items():
@@ -117,12 +132,11 @@ def __try(_dict: dict) -> float:
                 # check for context (negation?, qualifiers?, etc.)
                     # qualifiers e.g. "very", "slightly" etc.
                 #   (TODO)
-                quality += nextQuality
-                quality += ranktof(v)
+                lastQuality = nextQuality + ranktof(v)
+                quality += lastQuality
                 matches.append(word)
+                nextQuality = 0
         # end for
-        
-        nextQuality = 0
     # end for
     
     # take into account the frequency of selected words
