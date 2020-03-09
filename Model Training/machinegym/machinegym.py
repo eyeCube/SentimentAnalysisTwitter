@@ -10,9 +10,10 @@ from sad import DATA as SAD
     nltk.download('punkt')
 '''
 
-# ranks
-# how well does the word match the sentiment?
-
+class G: # global data
+    blob=None
+    hashtags=None
+# end class
 
 def init(): # call this before running any other scripts.
     # negative ranks
@@ -30,11 +31,6 @@ def sign(f: float) -> int:
     if f > 0: return 1
     return 0
 
-class G:
-    blob=None
-    hashtags=None
-# end class
-
 def extract_hashtags(text: str) -> set:
     return set(part[1:] for part in text.split(' ') if part.startswith('#'))
 
@@ -48,8 +44,9 @@ def test(text: str, _type: str) -> float:
     '''
     if _type=='happy':
         return ishappy(text)
-    if _type=='': #TODO: other sentiments
-        return ishappy(text)
+    if _type=='sad':
+        return issad(text)
+    #TODO: other sentiments
 # end def
 
     #------------------#

@@ -1,4 +1,7 @@
 
+# ranks
+# how well does the word match the sentiment?
+
 C_S=7
 C_A=6
 C_B=5
