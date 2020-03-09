@@ -1,7 +1,8 @@
 
-from textblob import TextBlob
-from happy import _dict as HAPPY
-from sad import _dict as SAD
+from textblob import TextBlob, tokenizers
+from meta import *
+from happy import DATA as HAPPY
+from sad import DATA as SAD
 
 '''
     import nltk
@@ -12,40 +13,18 @@ from sad import _dict as SAD
 # ranks
 # how well does the word match the sentiment?
 
-_S=7
-_A=6
-_B=5
-_C=4
-_D=3
-_E=2
-_F=1
-
-__S = 1
-__A = 0.75
-__B = 0.5
-__C = 0.3333334
-__D = 0.25
-__E = 0.2
-__F = 0.1666667
-
-__RANKTOF={
-_F : __F,
-_E : __E,
-_D : __D,
-_C : __C,
-_B : __B,
-_A : __A,
-_S : __S,
-    }
 
 def init(): # call this before running any other scripts.
     # negative ranks
-    for k,v in __RANKTOF.items():
-        k = min(_S, abs(k)) * sign(k)
-        __RANKTOF[-k] = -v
+    temp={}
+    for k,v in C__RANKTOF.items():
+        k = min(C_S, abs(k)) * sign(k)
+        temp[-k] = -v
+    for k,v in temp.items():
+        C__RANKTOF[k] = v
 
 def ranktof(i: int) -> float:
-    return __RANKTOF.get(math.sqrt(i), 0)
+    return C__RANKTOF.get(math.sqrt(i), 0)
 def sign(f: float) -> int:
     if f < 0: return -1
     if f > 0: return 1
@@ -108,7 +87,7 @@ def __try(_dict: dict) -> float:
     ''' Returns: (float, int,) | (quality, numMatches,) '''
     # init
     quality = 0
-    numMatches = 0
+    matches = []
     _improve_quality_of_hashtags(_dict)
     _add_common_misspellings(_dict)
     hashtag = False
@@ -121,10 +100,12 @@ def __try(_dict: dict) -> float:
         for k,v in kwargs.items():
             # check for a match
             if k == noun:
+                # check for context (negation?, etc.)
+                #   (TODO)
                 if hashtag:
                     quality += 1
                 quality += ranktof(v)
-                numMatches += 1
+                matches.append(noun)
         # end for
         hashtag = False
     # end for
@@ -132,7 +113,7 @@ def __try(_dict: dict) -> float:
     # take into account the frequency of selected words
     # and their ratio to the total number of words
         # TODO
-##    numMatches
+##    numMatches = len(matches)
     
     return min(1, quality)
 # end def
@@ -147,9 +128,18 @@ def _add_common_misspellings(_dict: dict, quality=-1):
 
 if __name__ == "__main__":
     init()
-    print("Enter the text to test: ")
-    blob = TextBlob(input())
-    for noun in blob.noun_phrases:
-        print(noun)
+    _tk = tokenizers.WordTokenizer()
+    words = []
+    while (True):
+        print("Enter the text to test: ")
+        text=input()
+        blob = TextBlob(text)
+        print("blob: ",blob)
+        for noun in blob.noun_phrases:
+            print(noun)
+        print("words...")
+        for word in _tk.itokenize(text):
+            words.append(word)
+            print(word.lower())
 ##    print(test(input(), 'happy'))
     
