@@ -25,7 +25,9 @@ SECRET_KEY = 'j)6v4r4!%ce_qdc2f_oecl!fd7vq6nz+f1f5uyhjivjwsy4s+='
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    '.satwebapp.us-east-1.elasticbeanstalk.com',
+]
 
 
 # Application definition
