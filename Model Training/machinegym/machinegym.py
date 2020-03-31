@@ -15,9 +15,9 @@
 from textblob import TextBlob, tokenizers
 
 from meta import *
-from happy import DATA as HAPPY
-from sad import DATA as SAD
-from grammar import QUALIFIERS
+import happy
+import sad
+from grammar import PREFIX_QUALIFIERS, POSTFIX_QUALIFIERS
 
 class G: # global data
     blob=None
@@ -45,7 +45,14 @@ def sign(f: float) -> int: # numerical sign, positive, negative, or 0
     return 0
 
 def extract_hashtags(text: str) -> set: # get words beginning with '#' (hashtags)
-    return set(part[1:] for part in text.split(' ') if part.startswith('#'))
+    split=[]
+    temp=[]
+    for i in text.split('\n'):
+        temp.append(i)
+    for j in temp:
+        for i in j.split(' '):
+            split.append(i)
+    return set(part[1:] for part in split if part.startswith('#'))
 
 def en_check(blob: TextBlob) -> bool: # is language of text English?
     return ( blob.detect_language()=='en' )
@@ -86,7 +93,7 @@ def ishappy(text: str) -> float:
     quality -= try_generic_sad()    # each pair adds 1 to n
     n+=1
     #
-    if n!=1: quality /= n
+##    if n!=1: quality /= n
     return quality
 # end def
 
@@ -113,27 +120,38 @@ def issad(text: str) -> float:
 # happy
 def try_generic_happy() -> float:
     temp={}
-    for k,v in HAPPY.items():
+    for k,v in happy.DATA.items():
         temp[k]=v
-    return __try(temp)
+    return __try(temp, happy.HASHTAGS)
 # end def
 
 # sad
 def try_generic_sad() -> float:
     temp={}
-    for k,v in SAD.items():
+    for k,v in sad.DATA.items():
         temp[k]=v
-    return __try(temp)
+    return __try(temp, sad.HASHTAGS)
 # end def
     
-def __try(_dict: dict) -> float:
-    ''' Returns: (float, int,) | (quality, numMatches,) '''
+def __try(_dict: dict, hashtags: str) -> float: # returns quality: float from -1 to 1
     # init
     quality = lastQuality = 0
     matches = []
-    _improve_quality_of_hashtags(_dict)
     _add_common_misspellings(_dict)
     nextQuality = 0
+    
+##    print("first it's ",quality)
+    
+    # hashtags
+    sethashtags = extract_hashtags(hashtags)
+    print(sethashtags)
+    for word in G.hashtags:
+        if word in sethashtags:
+            mm=1.5
+            quality += mm - mm*(hashtags.find(word) / len(hashtags))
+            
+    
+##    print("then it's ",quality)
     #
     # iterate over all nouns
     _tk = tokenizers.WordTokenizer()
@@ -168,7 +186,7 @@ def __try(_dict: dict) -> float:
                 continue
         
         # matches with keywords / phrases
-        for k,v in kwargs.items():
+        for k,v in _dict.items():
             # check for a match
             if k == word:
                 # check for context (negation?, qualifiers?, etc.)
@@ -186,13 +204,9 @@ def __try(_dict: dict) -> float:
         # TODO
 ##    numMatches = len(matches)
     
+##    print("final q: ",quality)
     return min(1, quality)
 # end def
-
-def _improve_quality_of_hashtags(_dict: dict, quality=1):
-    for word in G.hashtags:
-        if word in _dict.keys():
-            _dict[word] += quality
 
 def _add_common_misspellings(_dict: dict, quality=-1):
     pass #TODO
@@ -207,7 +221,7 @@ if __name__ == "__main__":
         print("Enter the text to test: ")
         text = input()
         blob = TextBlob(text)
-        print(test(input(), 'happy'))
+        print(test(text, 'happy'))
         
 ##        print("blob: ",blob)
 ##        for noun in blob.noun_phrases:
@@ -217,7 +231,7 @@ if __name__ == "__main__":
 ##            words.append(word)
 ##            print(word.lower())
 
-        
-    
+
+
 
 

@@ -1,6 +1,25 @@
 
 from meta import *
 
+EMOTES=(":d",":D","^_^",": d",">3",":)","(:","=)","(=","=D","8)","=]",
+        "8d","8D","8P",":P",":p","=P","=p","^^","8^d",":')","=')",)
+
+# (in order from highest to lowest match)
+HASHTAGS='''#happiness #love #happy #life #smile #instagood #motivation #family
+#photography #like #peace #instagram #inspiration #photooftheday #nature
+#beautiful #joy #travel #friends #picoftheday #positivevibes #lifestyle
+#fun #follow #goodvibes #selflove #beauty #art #bhfyp #health
+#positivity #loveyourself #me #fashion #goals #fitness #music #blessed
+#cute #christmas #gratitude #selfcare #likeforlikes #instadaily #freedom
+#meditation #style #believe #grateful #mindfulness #memories #girl #photo
+#friendship #wedding #selfie #passion #mindset #instalike #happinessishere
+#happinessquotes #happinessisachoice #happinessis #happinessoverload
+#happinessproject #happinesss #happinessiskey #happinesshomemade
+#happinessdelight #happinessbeginstour #happinesseverywhere #happinessbegins
+#happinessday #happinessisfree #happinesscomesfromwithin #happinessmood
+#happinessinacup #happinessisthekey'''
+
+
 DATA={
         'happy'         : C_C,
         'good'          : C_E,
@@ -80,4 +99,93 @@ DATA={
         'jesus'         : C_D,
         'god'           : C_D,
         'heaven'        : C_C,
+        'yay'        : C_C,
+        'yayy'        : C_C,
+        'celebration'        : C_C,
+        'hooray'        : C_C,
+        'hoorah'        : C_C,
+        'yatta'        : C_C,
+        'wee'        : C_C,
+        'weee'        : C_C,
+        'weeee'        : C_C,
+        'weeeee'        : C_C,
+        'loving'        : C_C,
+        'lovin'        : C_C,
+        'in love'        : C_C,
+        'gay'        : C_C,
+        'over the moon'        : C_C,
+        'gouranga'        : C_C,
+        'hb'        : C_C,
+        'giddy'        : C_C,
+        'buzzin'        : C_C,
+        'khushi'        : C_C,
+        'drunk'        : C_C,
+        'laura'        : C_C,
+        'ska'        : C_C,
+        'hny'        : C_C,
+        'happier than a pig in shit'        : C_C,
+        'lewis'        : C_C,
+        'weed'        : C_C,
+        'effexor'        : C_C,
+        'thc'        : C_C,
+        'hhc'        : C_C,
+        'ticked her fancy'        : C_C,
+        'pwaa'        : C_C,
+        'trappy'        : C_C,
+        'farhan'        : C_C,
+        'happles'        : C_C,
+        'chuft'        : C_C,
+        'thankee'        : C_C,
+        'hff'        : C_C,
+        'haps'        : C_C,
+        'hannah'        : C_C,
+        'artichoke'        : C_C,
+        'shappy'        : C_C,
+        'tight pants'        : C_C,
+        'happiful'        : C_C,
+        'shit'        : C_E,
+        'katie'        : C_C,
+        'boobies'        : C_C,
+        'hngd'        : C_C,
+        'merry'        : C_C,
+        'excited'        : C_C,
+        'gate massage'        : C_C,
+        'feliz'        : C_C,
+        'screwin'        : C_C,
+        'roksolana'        : C_C,
+        'reel big fish'        : C_C,
+        'a_a'        : C_C,
+        'plums'        : C_C,
+        'lala'        : C_C,
+        'supercalafragalisticespealladosecious'        : C_C,
+        'minchy'        : C_C,
+        'wicky'        : C_C,
+        'happy holidays'        : C_B,
+        'juiced'        : C_C,
+        'tree spot'        : C_C,
+        'humor'        : C_C,
+        'rejoice'        : C_C,
+        'he'        : C_C,
+        'happies'        : C_C,
+        'friday'        : C_C,
+        'stinky weaselteats'        : C_C,
+        'valentines day'        : C_C,
+        'keng'        : C_C,
+        'swankin'        : C_C,
+        'hhd'        : C_C,
+        'hailie jade'        : C_C,
+        'syrett'        : C_C,
+        'dwbh'        : C_C,
+        's.h.i.t.'        : C_C,
+        'happier'        : C_C,
+        'fan'        : C_C,
+        'owl city'        : C_C,
+        'happy clam'        : C_C,
+        'shadan'        : C_C,
+        'haomin'        : C_C,
+        'red letter day'        : C_C,
+        'gruntled'        : C_C,
+        'hth'        : C_C,
+        'happy as a man with tits in his hat'        : C_C,
+        'brappy'        : C_C,
     }

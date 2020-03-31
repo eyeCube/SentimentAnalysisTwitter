@@ -1,6 +1,22 @@
 
 from meta import *
 
+HASHTAGS=''' #sadness #sad #love #depression #alone #quotes #broken
+#depressed #life #sadedits #brokenheart #follow #mood #like #anxiety #pain
+#lonely #crying #lovequotes #heartbroken #art #cry #sadgirl #poetry
+#instagram #l #sadvideos #sadboy #tears #bhfyp #help #feelings
+#sadquotespage #triste #dark #aesthetic #suicide #bhfyp #hate #hope #tumblr
+#photography #hurt #s #emotions #darkness #likeforlikes #insta #me #sadposts
+#sadlife #death #upset #mentalhealth #explorepage #heart #anime
+#sadqoutes #sadnessquotes #sadnessandsorrow #sadnesss #sadnessinsideout
+#sadnessoverload #sadnesstime #sadnessday #sadnessisablessing
+#sadnessisarebellion #sadnessquotess #sadnessgoaway #sadnesscosplay
+#sadnessedit #sadnesstoo #sadnessforever #sadnessintheair
+#sadnessinmyheart #sadnessisbeautiful #sadnesshurts
+#sadnessreliever
+'''
+
+
 DATA={
         'sad'           : C_C,
         'bad'           : C_E,

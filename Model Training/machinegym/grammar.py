@@ -13,5 +13,6 @@ PREFIX_QUALIFIERS={
     }
 
 POSTFIX_QUALIFIERS={
-
+'af'            : (1,1,),
+'asf'           : (1,1,),
     }

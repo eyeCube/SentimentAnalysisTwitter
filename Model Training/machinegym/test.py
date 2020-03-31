@@ -1,15 +1,8 @@
 
-# generic
-def _issentiment(func):
-    def inner(*args, **kwargs):
-        print("hi!")
-        print(args[0])
-        return func(*args, **kwargs)
-    return inner
-    
-# happy
-@_issentiment
-def ishappy(text):
-    print("yo.")
+from textblob import TextBlob
 
-ishappy("blah~")
+def en_check(blob: TextBlob) -> bool: # is language of text English?
+    return ( blob.detect_language()=='en' )
+
+while(True):
+    print(en_check(TextBlob(input())))
