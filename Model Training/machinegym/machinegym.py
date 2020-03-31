@@ -144,11 +144,10 @@ def __try(_dict: dict, hashtags: str) -> float: # returns quality: float from -1
     
     # hashtags
     sethashtags = extract_hashtags(hashtags)
-    print(sethashtags)
     for word in G.hashtags:
         if word in sethashtags:
             mm=1.5
-            quality += mm - mm*(hashtags.find(word) / len(hashtags))
+            quality += 0.5 + mm - mm*(hashtags.find(word) / len(hashtags))
             
     
 ##    print("then it's ",quality)
