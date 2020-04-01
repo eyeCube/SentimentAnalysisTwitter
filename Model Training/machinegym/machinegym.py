@@ -87,13 +87,10 @@ def sentiment(func): # wrapper function to initialize an is_sentiment function
 @sentiment
 def ishappy(text: str) -> float:
     quality = 0
-    n = 0
     # try to match words & context to change the disposition
-    quality += try_generic_happy()  # sentiments come in pairs + & -
-    quality -= try_generic_sad()    # each pair adds 1 to n
-    n+=1
+    quality += try_generic_happy()
+    quality -= try_generic_sad()
     #
-##    if n!=1: quality /= n
     return quality
 # end def
 
@@ -101,13 +98,10 @@ def ishappy(text: str) -> float:
 @sentiment
 def issad(text: str) -> float:
     quality = 0
-    n = 0
     # try to match words & context to change the disposition
     quality -= try_generic_happy()
     quality += try_generic_sad()
-    n+=1
     #
-    if n!=1: quality /= n
     return quality
 # end def
 
