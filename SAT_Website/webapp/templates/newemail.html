@@ -1,16 +1,28 @@
 {% extends "base.html" %}
 {% block content %}
-<p>Sorry, we don't have that information <em><strong>yet.</strong></em></p>
-<p>Enter your information to be notified when it is available:</p>
-<div>
+    <div>
+<p class="text-left">&ensp;Sorry, we don't have that information <em><strong>yet.</strong></em></p>
+<p>&ensp;Enter your information to be notified when it is available:</p>
+        </div>
 <form method="post" action="">
-    {% csrf_token %}
-        <p>Name: <input type="text" name="n" id="id_n" value="{{ query }}" required/></p>
-        <p>Email: <input type="email" name="e" id="id_e" value="{{ query }}" required/></p>
-    <input type="submit" value="Submit" />
+  <div class="form-group">
+
+    <div class="col-sm-3">
+        <label for="id_n">Name</label>
+            <input type="text" class="form-control" name="n" id="id_n" value="{{ query }}" placeholder="Enter name" required>
+    </div>
+  </div>
+    <div class="form-group">
+        <div class="col-sm-3">
+            <label for="id_e">Email address</label>
+                <input type="email" name="e" class="form-control" id="id_e" value="{{ query }}" placeholder="Enter email" required>
+        </div>
+  </div>
+    <div class="col-sm-3">
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </div>
 </form>
 
-</div>
     <br>
-<p><strong>{{ text }}</strong></p>
+&ensp;<strong>{{ text }}</strong>
 {% endblock content %}

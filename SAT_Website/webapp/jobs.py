@@ -7,7 +7,7 @@ from string import Template
 from .models import Email
 
 current_site = Site.objects.get_current()
-message = Template('You should be able to find your query here: $site/$search')
+message = Template('You should be able to find your query here: $site/search/?q=$email')
 
 
 def send_email():
@@ -19,7 +19,8 @@ def send_email():
         email.EmailSent = True
         email.save()
 
-        m = message.substitute(site=current_site.domain, search=email.name)
+        m = message.substitute(site=current_site.domain, email=email.Email)
+        print(m)
 
         send_mail(
             'Your query is ready to view!',
@@ -64,4 +65,4 @@ Scheduler.run_continuously = run_continuously
 def start_scheduler():
     scheduler = Scheduler()
     scheduler.every().minute.at(':30').do(send_email)
-    scheduler.run_continuously(60)
+    scheduler.run_continuously(300)
