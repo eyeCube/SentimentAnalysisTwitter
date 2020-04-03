@@ -17,6 +17,8 @@ from textblob import TextBlob, tokenizers
 from meta import *
 import happy
 import sad
+import angry
+import peaceful
 from grammar import PREFIX_QUALIFIERS, POSTFIX_QUALIFIERS
 
 class G: # global data
@@ -57,17 +59,28 @@ def extract_hashtags(text: str) -> set: # get words beginning with '#' (hashtags
 def en_check(blob: TextBlob) -> bool: # is language of text English?
     return ( blob.detect_language()=='en' )
 
-def test(text: str, _type: str) -> float:
+def test(text: str, _type: str, digital=True) -> float:
     ''' test the text 'text' for the sentiment given by the string '_type'.
         Returns a float from -1 to 1, which indicates how well it matches
             the given sentiment.
     '''
     if _type=='happy':
-        return ishappy(text)
+        return ishappy(text, digital=digital)
     if _type=='sad':
-        return issad(text)
+        return issad(text, digital=digital)
+    if _type=='angry':
+        return isangry(text, digital=digital)
+    if _type=='peaceful':
+        return ispeaceful(text, digital=digital)
     #TODO: other sentiments
 # end def
+
+def get_digital(quality): return sign(quality)
+def sign(number):
+    if number < 0: return -1
+    if number > 0: return 1
+    return 0
+
 
     #------------------#
     #    sentiments    #
@@ -82,27 +95,61 @@ def sentiment(func): # wrapper function to initialize an is_sentiment function
         G.hashtags = extract_hashtags(text)
         return func(*args, **kwargs)
     return inner
-    
+
 # happy
 @sentiment
-def ishappy(text: str) -> float:
+def ishappy(text: str, digital=True) -> float:
     quality = 0
     # try to match words & context to change the disposition
     quality += try_generic_happy()
     quality -= try_generic_sad()
     #
-    return quality
+    if digital:
+        return get_digital(quality)
+    else:
+        return quality
 # end def
 
 # sad
 @sentiment
-def issad(text: str) -> float:
+def issad(text: str, digital=True) -> float:
     quality = 0
     # try to match words & context to change the disposition
     quality -= try_generic_happy()
     quality += try_generic_sad()
     #
-    return quality
+    if digital:
+        return get_digital(quality)
+    else:
+        return quality
+# end def
+
+# sad
+@sentiment
+def isangry(text: str, digital=True) -> float:
+    quality = 0
+    # try to match words & context to change the disposition
+    quality -= try_generic_peaceful()
+    quality += try_generic_angry()
+    #
+    if digital:
+        return get_digital(quality)
+    else:
+        return quality
+# end def
+
+# sad
+@sentiment
+def ispeaceful(text: str, digital=True) -> float:
+    quality = 0
+    # try to match words & context to change the disposition
+    quality += try_generic_peaceful()
+    quality -= try_generic_angry()
+    #
+    if digital:
+        return get_digital(quality)
+    else:
+        return quality
 # end def
 
     #-------------#
@@ -127,12 +174,30 @@ def try_generic_sad() -> float:
     return __try(temp, sad.HASHTAGS)
 # end def
     
+# happy
+def try_generic_angry() -> float:
+    temp={}
+    for k,v in angry.DATA.items():
+        temp[k]=v
+    return __try(temp, angry.HASHTAGS)
+# end def
+
+# sad
+def try_generic_peaceful() -> float:
+    temp={}
+    for k,v in peaceful.DATA.items():
+        temp[k]=v
+    return __try(temp, peaceful.HASHTAGS)
+# end def
+    
 def __try(_dict: dict, hashtags: str) -> float: # returns quality: float from -1 to 1
     # init
-    quality = lastQuality = 0
     matches = []
     _add_common_misspellings(_dict)
-    nextQuality = 0
+    quality = 0
+    nextQuality_a = 0
+    nextQuality_m = 1
+    lastQuality = 0
     
 ##    print("first it's ",quality)
     
@@ -153,11 +218,12 @@ def __try(_dict: dict, hashtags: str) -> float: # returns quality: float from -1
         # (common word pairs -- words that commonly go together)
         
         # hashtags
-        if '#'==word:
-            nextQuality += 1
-            continue
+##        if '#'==word:
+##            nextQuality_m = 1.5
+##            continue
         if '.'==word:
-            nextQuality = 0
+            nextQuality_m = 1
+            nextQuality_a = 1
             lastQuality = 0
             continue
         
@@ -168,14 +234,13 @@ def __try(_dict: dict, hashtags: str) -> float: # returns quality: float from -1
         for k,v in PREFIX_QUALIFIERS.items():
             vm, va = v
             if k == word:
-                nextQuality += va
-                nextQuality *= vm
+                nextQuality_a += va
+                nextQuality_m *= vm
                 continue
         for k,v in POSTFIX_QUALIFIERS.items():
             vm, va = v
             if k == word:
-                quality += va*lastQuality
-                quality *= vm*lastQuality
+                quality *= (va*lastQuality + vm*lastQuality)
                 continue
         
         # matches with keywords / phrases
@@ -185,10 +250,11 @@ def __try(_dict: dict, hashtags: str) -> float: # returns quality: float from -1
                 # check for context (negation?, qualifiers?, etc.)
                     # qualifiers e.g. "very", "slightly" etc.
                 #   (TODO)
-                lastQuality = nextQuality + ranktof(v)
+                lastQuality = nextQuality_m*(nextQuality_a + ranktof(v))
                 quality += lastQuality
                 matches.append(word)
-                nextQuality = 0
+                nextQuality_a = 0
+                nextQuality_m = 1
         # end for
     # end for
     
@@ -214,7 +280,7 @@ if __name__ == "__main__":
         print("Enter the text to test: ")
         text = input()
         blob = TextBlob(text)
-        print(test(text, 'happy'))
+        print(test(text, 'angry'))
         
 ##        print("blob: ",blob)
 ##        for noun in blob.noun_phrases:

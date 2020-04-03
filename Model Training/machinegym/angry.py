@@ -5,8 +5,22 @@ from meta import *
 EMOTES=('):<','>:(','D:','D:<','d:<','>:e','>:v','v:<','-__-','-_-',
         '-.-','._.',)
 
+HASHTAGS='''#angry #love #sad #art #cute #follow #like #happy #funny
+#mad #instagram #drawing #meme #mood #instagood #cat #angryface #music
+#angryeyes #likeforlikes #memes #smile #anime #photography #black
+#angrybirds #attitude #lol #fun #bhfyp #anger #life #angryfeminist #red
+#d #jealous #jiiva #photooftheday #angrymom #angrybaby #tiktok
+#angryallthetime #artist #girl #angryme #angrymood #beautiful #likes
+#followforfollowback #animals #comedy #canon #sketch #happiness #animal
+#angrywoman #digitalart #catsofinstagram #angrycat #angryyoungman
+#angryorchard #angrycat #angryface #angrybaby #angrydog #angrykitty
+#angryeyes #angrymom #angrysky #angryman #angrygirl #angrybeavers
+#angrycats #angrylook'''
+
 DATA={
     'angry'                 : C_C,
+    'red'                   : C_E,
+    'seeing red'            : C_D,
     'irate'                 : C_B,
     'annoyed'               : C_C,
     'cross'                 : C_C,
@@ -89,6 +103,9 @@ DATA={
     'bitter'                : C_C,
     'pissed'                : C_C,
     'pissed off'            : C_C,
+    'piss me off'           : C_C,
+    'pissed me off'         : C_C,
+    'pisses me off'         : C_C,
     'fit to be tied'        : C_C,
     'in a paddy'            : C_C,
     'in a lather'           : C_C,
@@ -120,7 +137,6 @@ DATA={
     'drove'                 : C_C,
     'bleak'                 : C_C,
     'frothy'                : C_C,
-    'piss me off'           : C_C,
     'ripshit'               : C_C,
     'cheesed off'           : C_C,
     'agro'                  : C_C,
