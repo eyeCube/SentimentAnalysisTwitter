@@ -15,6 +15,11 @@ class Global:
     # constants
     __TRAINING__=0
 
+class TrainingData:
+    def __init__(self, **kwargs):
+        for k,v in kwargs.items():
+            self.__dict__[k] = v
+
 class TweetStreamListener(StreamListener):
     __IMPORTED_TEXTBLOB__=False
     __IMPORTED_ELASTICSEARCH__=False
@@ -23,6 +28,7 @@ class TweetStreamListener(StreamListener):
         super(TweetStreamListener, self).__init__(args, kwargs)
 
         self.es=None
+        self.trainingdata=[]
     
     @classmethod
     def import_textBlob(cls):
@@ -67,9 +73,6 @@ class TweetStreamListener(StreamListener):
         # pass tweet into TextBlob
         tweet = TextBlob(data["text"])
         
-        # output sentiment polarity
-        print(tweet.sentiment.polarity)
-        
         # determine if sentiment is positive, negative, or neutral
         if tweet.sentiment.polarity < 0:
             sentiment = "negative"
@@ -79,28 +82,48 @@ class TweetStreamListener(StreamListener):
             sentiment = "positive"
         
         # output sentiment
-        print(sentiment)
+        self.trainingdata.append(TrainingData(
+            message=data["text"],
+            polarity=tweet.sentiment.polarity,
+            subjectivity=tweet.sentiment.subjectivity,
+            ))
         
         # add text and sentiment info to elasticsearch
-        self.es.index(index="sentiment",
-                 doc_type="test-type",
-                 body={"author": data["user"]["screen_name"],
-                       "date": data["created_at"],
-                       "message": data["text"],
-                       "polarity": tweet.sentiment.polarity,
-                       "subjectivity": tweet.sentiment.subjectivity,
-                       "sentiment": sentiment})
+        if self.es:
+            self.es.index(index="sentiment",
+                doc_type="test-type",
+                body={"author": data["user"]["screen_name"],
+                      "date": data["created_at"],
+                      "message": data["text"],
+                      "polarity": tweet.sentiment.polarity,
+                      "subjectivity": tweet.sentiment.subjectivity,
+                      "sentiment": sentiment})
         return True
+    # end def
     
     # on failure
     def on_error(self, status):
         print(status)
+    # end def
+
+    def write_training_data(self, filename):
+        with open(filename, "w") as f:
+            for data in self.trainingdata:
+                # what format should we use?
+                f.write(
+                    '''"message":{}
+"polarity":{}
+'''.format(data.message, data.polarity)
+                    )
+    # end def
 # end class
 
-def main():    
-    if len(sys.argv) == 1:
-        printhelp()
-    Global.__TRAINING__ = sys.argv[1]
+def main():
+    Global.__TRAINING__ = True #TEMPORARY
+    # program parameters
+##    if len(sys.argv) == 1:
+##        printhelp()
+##    Global.__TRAINING__ = sys.argv[1]
         
     # create instance of the tweepy tweet stream listener
     listener = TweetStreamListener()
@@ -113,12 +136,13 @@ def main():
     stream = Stream(auth, listener)
     
     # filter by the keywords specified in the command line arguments
-    kws=[]
-    for arg in sys.argv[2:]:
-        print(arg)
-        kws.append(arg)
-    
-    stream.filter(track=kws)
+##    kws=[]
+##    for arg in sys.argv[2:]:
+##        print(arg)
+##        kws.append(arg)
+##    
+##    stream.filter(track=kws)
+    stream.filter(track=['impeach']) #TEMPORARY
 #end def
 
 def printhelp():
