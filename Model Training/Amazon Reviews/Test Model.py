@@ -1,19 +1,18 @@
-# Test the pickled model
-import pickle
 import pandas as pd
+import sklearn
+import pickle
 
-with open('vectorizer.pickle', 'rb') as f:
-    vectorizer = pickle.load(f)
-with open('SGD.pickle', 'rb') as f:
+DIR = r'C:/Users/okosa/Desktop/'
+infile = DIR + 'test_data.csv'
+model_path = 'SGD.pickle'
+vectorizer_path = 'vectorizer.pickle'
+
+with open(model_path, 'rb') as f:
     model = pickle.load(f)
+with open(vectorizer_path, 'rb') as f:
+    vectorizer = pickle.load(f)
 
-while True:
-    my_input = [[input('Enter text:')]]
-    if my_input == [['q']]: break
-    test_data = pd.DataFrame(my_input)
-    test_data = test_data[0].str.lower()  # make the reviews all lowercase
-    test_data.replace(regex=True, inplace=True, to_replace=r'[^a-z\s]',
-                      value='')  # Remove punctuation and numbers from reviews
-    test_data = vectorizer.transform(test_data)
-    rating = model.predict(test_data)
-    print('Score:', rating)
+test_data = pd.read_csv(infile)
+processed_data = vectorizer.transform(test_data['review_body'].values.astype('U'))
+result = model.score(processed_data, test_data['star_rating'])
+print (result)
