@@ -12,7 +12,7 @@ message = Template('You should be able to find your query here: $site/search/?q=
 
 def send_email():
     emails = Email.objects.all().filter(EmailSent=False)
-    print(emails)
+    # print(emails)
 
     for email in emails:
         print("Attempting to send email to", email.Email)
@@ -20,7 +20,7 @@ def send_email():
         email.save()
 
         m = message.substitute(site=current_site.domain, email=email.Email)
-        print(m)
+        # print(m)
 
         send_mail(
             'Your query is ready to view!',

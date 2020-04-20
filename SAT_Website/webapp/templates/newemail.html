@@ -1,10 +1,11 @@
 {% extends "base.html" %}
 {% block content %}
-    <div>
-<p class="text-left">&ensp;Sorry, we don't have that information <em><strong>yet.</strong></em></p>
-<p>&ensp;Enter your information to be notified when it is available:</p>
-        </div>
+<div>
+    <p id="p1">Sorry, we don't have that information <em><strong>yet.</strong></em></p>
+    <p id="p1">Enter your information to be notified when it is available:</p>
+</div>
 <form method="post" action="">
+  {% csrf_token %}
   <div class="form-group">
 
     <div class="col-sm-3">
@@ -19,7 +20,7 @@
         </div>
   </div>
     <div class="col-sm-3">
-        <button type="submit" class="btn btn-primary">Submit</button>
+        <button type="submit" class="btn btn-dark">Submit</button>
     </div>
 </form>
 
