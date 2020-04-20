@@ -3,18 +3,34 @@
 <head>
     <meta charset="UTF-8">
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
     <title>Sentiment Analysis for Twitter</title>
+    <style>
+        #p1 {
+            padding-left: 1em;
+        }
+    </style>
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <div>
-        <ul class="nav">
-            <li class="nav-item">
-                <a class="nav-link active" href="{% url 'home' %}">Home</a>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <a class="navbar-brand" href="{% url 'home' %}">SAT</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item active pl-3">
+                <a class="nav-link" href="{% url 'home' %}">Home<span class="sr-only">(current)</span></a>
             </li>
-            <li class="nav-item">
-                <a class="nav-link active" href="{% url 'new_search' %}">Search database</a>
+            <li class="nav-item pl-3">
+                <a class="nav-link" href="{% url 'about' %}">About</a>
             </li>
+            <form class="form-inline my-2 my-lg-0 pl-3" method="get" action="/search/">
+                <input class="form-control mr-sm-1" type="search" name="q" id="id_q" placeholder="New search" aria-label="Search" value="{{ query }}" required>
+                <button class="btn btn-outline-light my-2 my-sm-0" type="submit">Search</button>
+            </form>
         </ul>
     </div>
     </nav>
