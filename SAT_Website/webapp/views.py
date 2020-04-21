@@ -1,4 +1,4 @@
-from .models import Email
+from .models import *
 from django.shortcuts import render
 from django.http import HttpResponse
 from django.http import Http404
@@ -28,3 +28,8 @@ def search(request):
 
 def about(request):
     return render(request, 'about.html')
+
+
+def test(request):
+    rows = Tweets.objects.using('tweets').all()
+    return render(request, 'tweets.html', {'rows': rows})
