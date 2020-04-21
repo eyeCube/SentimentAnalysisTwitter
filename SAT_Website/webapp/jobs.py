@@ -4,10 +4,10 @@ import time
 from django.core.mail import send_mail
 from django.contrib.sites.models import Site
 from string import Template
-from .models import Email
+from .models import *
 
 current_site = Site.objects.get_current()
-message = Template('You should be able to find your query here: $site/search/?q=$email')
+message = Template('You should be able to find your query here: $site/search/?q=$tweet')
 
 
 def send_email():
@@ -19,7 +19,8 @@ def send_email():
         email.EmailSent = True
         email.save()
 
-        m = message.substitute(site=current_site.domain, email=email.Email)
+        m = message.substitute(site=current_site.domain, tweet=(Tweets.objects.using('tweets')
+                               .get(id__exact=email.tweet_id)).text)
         # print(m)
 
         send_mail(

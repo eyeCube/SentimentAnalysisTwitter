@@ -10,19 +10,28 @@ def home(request):
 
 def search(request):
     if request.method == 'POST':
+        tweet_id = request.POST['tweet_id']
         try:
             email = Email.objects.get(Email=request.POST['e'])
             email.EmailSent = False
+            email.tweet_id = tweet_id
             email.save()
         except Email.DoesNotExist:
-            new = Email(name=request.POST['n'], Email=request.POST['e'])
+            new = Email(name=request.POST['n'], Email=request.POST['e'], tweet_id=tweet_id)
             new.save()
         return render(request, 'newemail.html', {'text': "Thanks!"})
     query = request.GET.get('q')
     try:
-        email = Email.objects.get(Email=query)
-    except Email.DoesNotExist:
-        return render(request, 'newemail.html')
+        tweets = Tweets.objects.using('tweets').filter(text__icontains=query)
+        tweets[0]
+    except IndexError:
+        # insert whatever tweepy must do here
+        # note: query contains the text  being looked for by user
+        new_tweet = Tweets(text=query, year=2020)
+        new_tweet.save(using='tweets')
+        tweet_id = (Tweets.objects.using('tweets').get(text__exact=query, year__exact=2020)).id
+        return render(request, 'newemail.html', {'tweet_id': tweet_id})
+    email = Email.objects.get(Email='andre@guiraud.biz')
     return render(request, 'results.html', {'email': email})
 
 
