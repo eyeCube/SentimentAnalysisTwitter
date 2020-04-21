@@ -1,5 +1,5 @@
 
-from meta import *
+from ModelTraining.machinegym.meta import *
 
 EMOTES=(":d",":D","^_^",": d",">3",":)","(:","=)","(=","=D","8)","=]",
         "8d","8D","8P",":P",":p","=P","=p","^^","8^d",":')","=')",)

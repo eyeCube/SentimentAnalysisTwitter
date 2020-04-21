@@ -1,5 +1,5 @@
 
-from meta import *
+from ModelTraining.machinegym.meta import *
 
 HASHTAGS=''' #sadness #sad #love #depression #alone #quotes #broken
 #depressed #life #sadedits #brokenheart #follow #mood #like #anxiety #pain
