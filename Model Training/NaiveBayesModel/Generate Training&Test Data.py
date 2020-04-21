@@ -1,3 +1,6 @@
+# Separate processed data into training, validation and testing data
+# Author: Oscar Kosar-Kosarewicz
+
 from sklearn.model_selection import train_test_split
 import numpy as np
 

@@ -1,3 +1,6 @@
+# Create the Naive Bayes model for predicting tweet sentiment
+# Author: Oscar Kosar-Kosarewicz
+
 from sklearn.naive_bayes import MultinomialNB
 from pickle import dump
 from scipy import sparse

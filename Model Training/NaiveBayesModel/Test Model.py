@@ -1,3 +1,6 @@
+# Test the NB model
+# Author: Oscar Kosar-Kosarewicz
+
 import pandas as pd
 import sklearn
 import pickle

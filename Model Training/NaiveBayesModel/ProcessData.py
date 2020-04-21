@@ -1,8 +1,7 @@
-import string
+# Process tweet data to be used in the NB model
+# Author: Kosar-Kosarewicz
+
 import pandas as pd
-import os
-from sklearn.feature_extraction.text import HashingVectorizer
-from pickle import dump
 import numpy as np
 
 data = pd.read_csv('fulldata.csv', encoding='latin-1')  # read in data from csv

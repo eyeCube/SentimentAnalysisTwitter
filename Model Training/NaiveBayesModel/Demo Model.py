@@ -1,4 +1,5 @@
-# Test the pickled model
+# Test the pickled NB model
+# Author: Oscar Kosar-Kosarewicz
 import pickle
 import pandas as pd
 
