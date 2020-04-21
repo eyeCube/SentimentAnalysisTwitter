@@ -16,3 +16,4 @@ test_data = pd.read_csv(infile)
 processed_data = vectorizer.transform(test_data['review_body'].values.astype('U'))
 result = model.score(processed_data, test_data['star_rating'])
 print (result)
+
