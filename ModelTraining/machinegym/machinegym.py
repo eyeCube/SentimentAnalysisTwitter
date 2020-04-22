@@ -12,7 +12,18 @@
 >>>nltk.download('punkt')
 '''
 
+'''
+    TODO:
+        tweepy working with machinegym
+        more emotions, more words for each emotion
+            
+        emoticons
+        
+'''
+
 from textblob import TextBlob, tokenizers
+import numpy
+import pandas
 
 from ModelTraining.machinegym.meta import *
 import ModelTraining.machinegym.happy as happy
@@ -26,6 +37,20 @@ class G: # global data
     text=""
     hashtags=set()
 # end class
+
+def score_by_dataframe(dataframe: pandas.DataFrame) -> pandas.DataFrame:
+    newdf=pandas.DataFrame({}, columns=[
+        'text','happy','sad','angry','peaceful',
+        ])
+    for index, row in dataframe.iterrows():
+        text = row[0]
+        happy = ishappy(text)
+        sad = issad(text)
+        angry = isangry(text)
+        peaceful = ispeaceful(text)
+        row = pandas.Series(text,happy,sad,angry,peaceful)
+        newdf.concat(newdf, row)
+    return newdf
 
 def init():
     ''' call this before running any other scripts. '''
@@ -57,12 +82,18 @@ def extract_hashtags(text: str) -> set: # get words beginning with '#' (hashtags
     return set(part[1:] for part in split if part.startswith('#'))
 
 def en_check(blob: TextBlob) -> bool: # is language of text English?
+    if len(blob) < 3: return False
     return ( blob.detect_language()=='en' )
 
-def test(text: str, _type: str, digital=True) -> float:
+def test(text: str, _type: str, digital=True):
     ''' test the text 'text' for the sentiment given by the string '_type'.
-        Returns a float from -1 to 1, which indicates how well it matches
-            the given sentiment.
+        Parameters:
+            text - string to test the sentiment of
+            _type - sentiment type 'happy', 'sad', 'angry', 'peaceful', etc.
+            digital - if True, the returned value is either -1, 0, or 1
+        Returns a float* from -1 to 1, which indicates how well it matches
+            the given sentiment '_type'.
+            * If 'digital' is True, the returned value is either -1, 0, or 1.
     '''
     if _type=='happy':
         return ishappy(text, digital=digital)
@@ -272,6 +303,11 @@ def _add_common_misspellings(_dict: dict, quality=-1):
 def _add_common_abbreviations(_dict: dict, quality=-1):
     pass #TODO
 
+def get_training_data_from_text(sentiment: str, *args):
+    data=[]
+    for arg in args:
+        data.append(test(arg, sentiment))
+
 if __name__ == "__main__":
     init()
     _tk = tokenizers.WordTokenizer()
@@ -280,7 +316,7 @@ if __name__ == "__main__":
         print("Enter the text to test: ")
         text = input()
         blob = TextBlob(text)
-        print(test(text, 'angry'))
+        print(test(text, 'happy'))
         
 ##        print("blob: ",blob)
 ##        for noun in blob.noun_phrases:
