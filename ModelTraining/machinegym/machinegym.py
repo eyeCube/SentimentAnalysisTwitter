@@ -14,12 +14,12 @@
 
 from textblob import TextBlob, tokenizers
 
-from meta import *
-import happy
-import sad
-import angry
-import peaceful
-from grammar import PREFIX_QUALIFIERS, POSTFIX_QUALIFIERS
+from ModelTraining.machinegym.meta import *
+import ModelTraining.machinegym.happy as happy
+import ModelTraining.machinegym.sad as sad
+import ModelTraining.machinegym.angry as angry
+import ModelTraining.machinegym.peaceful as peaceful
+from ModelTraining.machinegym.grammar import PREFIX_QUALIFIERS, POSTFIX_QUALIFIERS
 
 class G: # global data
     blob=None

@@ -19,5 +19,5 @@ with open(vectorizer_path, 'rb') as f:
 test_data = np.load(infile, allow_pickle=True)
 processed_data = vectorizer.transform(test_data[:, 0])
 result = model.score(processed_data, test_data[:, 1].astype('int'))
-print (result)
+print(result)
 
