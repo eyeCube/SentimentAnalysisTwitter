@@ -48,8 +48,8 @@ def score_by_dataframe(dataframe: pandas.DataFrame) -> pandas.DataFrame:
         sad = issad(text)
         angry = isangry(text)
         peaceful = ispeaceful(text)
-        row = pandas.Series(text,happy,sad,angry,peaceful)
-        newdf.concat(newdf, row)
+        row = pandas.DataFrame([[text,happy,sad,angry,peaceful]], columns=newdf.columns)
+        newdf = newdf.append(row, ignore_index=True)
     return newdf
 
 def init():
