@@ -26,10 +26,12 @@ import numpy
 import pandas
 
 from ModelTraining.machinegym.meta import *
-import ModelTraining.machinegym.happy as happy
-import ModelTraining.machinegym.sad as sad
-import ModelTraining.machinegym.angry as angry
-import ModelTraining.machinegym.peaceful as peaceful
+import ModelTraining.machinegym.happy
+import ModelTraining.machinegym.sad
+import ModelTraining.machinegym.angry
+import ModelTraining.machinegym.peaceful
+import ModelTraining.machinegym.bored
+import ModelTraining.machinegym.fun
 from ModelTraining.machinegym.grammar import PREFIX_QUALIFIERS, POSTFIX_QUALIFIERS
 
 class G: # global data
@@ -40,7 +42,7 @@ class G: # global data
 
 def score_by_dataframe(dataframe: pandas.DataFrame) -> pandas.DataFrame:
     newdf=pandas.DataFrame({}, columns=[
-        'text','happy','sad','angry','peaceful',
+        'text','happy','sad','angry','peaceful','fun','bored'
         ])
     for index, row in dataframe.iterrows():
         text = row[0]
@@ -48,8 +50,10 @@ def score_by_dataframe(dataframe: pandas.DataFrame) -> pandas.DataFrame:
         sad = issad(text)
         angry = isangry(text)
         peaceful = ispeaceful(text)
-        row = pandas.DataFrame([[text,happy,sad,angry,peaceful]], columns=newdf.columns)
-        newdf = newdf.append(row, ignore_index=True)
+        fun = isfun(text)
+        bored = isbored(text)
+        row = pandas.DataFrame(text,happy,sad,angry,peaceful,fun,bored)
+        newdf.concat(newdf, row)
     return newdf
 
 def init():
@@ -103,6 +107,10 @@ def test(text: str, _type: str, digital=True):
         return isangry(text, digital=digital)
     if _type=='peaceful':
         return ispeaceful(text, digital=digital)
+    if _type=='fun':
+        return isfun(text, digital=digital)
+    if _type=='bored':
+        return isbored(text, digital=digital)
     #TODO: other sentiments
 # end def
 
@@ -183,6 +191,34 @@ def ispeaceful(text: str, digital=True) -> float:
         return quality
 # end def
 
+# sad
+@sentiment
+def isfun(text: str, digital=True) -> float:
+    quality = 0
+    # try to match words & context to change the disposition
+    quality -= try_generic_fun()
+    quality += try_generic_bored()
+    #
+    if digital:
+        return get_digital(quality)
+    else:
+        return quality
+# end def
+
+# sad
+@sentiment
+def isbored(text: str, digital=True) -> float:
+    quality = 0
+    # try to match words & context to change the disposition
+    quality += try_generic_bored()
+    quality -= try_generic_fun()
+    #
+    if digital:
+        return get_digital(quality)
+    else:
+        return quality
+# end def
+
     #-------------#
     #     try     #
     #-------------#
@@ -219,6 +255,22 @@ def try_generic_peaceful() -> float:
     for k,v in peaceful.DATA.items():
         temp[k]=v
     return __try(temp, peaceful.HASHTAGS)
+# end def
+    
+# happy
+def try_generic_fun() -> float:
+    temp={}
+    for k,v in fun.DATA.items():
+        temp[k]=v
+    return __try(temp, fun.HASHTAGS)
+# end def
+
+# sad
+def try_generic_bored() -> float:
+    temp={}
+    for k,v in bored.DATA.items():
+        temp[k]=v
+    return __try(temp, bored.HASHTAGS)
 # end def
     
 def __try(_dict: dict, hashtags: str) -> float: # returns quality: float from -1 to 1
