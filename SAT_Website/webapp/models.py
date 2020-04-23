@@ -21,7 +21,11 @@ class Tweets(models.Model):
 
 
 class Tags(models.Model):
-    id = models.ForeignKey(Tweets, on_delete=models.CASCADE, primary_key=True)
+    id = models.OneToOneField(
+        Tweets,
+        on_delete=models.CASCADE,
+        primary_key=True,
+    )
     text = models.CharField(max_length=256)
 
     class Meta:
