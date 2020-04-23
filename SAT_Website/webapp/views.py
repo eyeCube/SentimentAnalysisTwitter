@@ -28,11 +28,13 @@ def search(request):
         tweets = Tweets.objects.using('tweets').all().filter(text__icontains=' ' + query + ' ', year=year)[:10]
         tweets[0]
     except IndexError:
-        # insert whatever tweepy must do here
-        # note: query contains the text  being looked for by user
         query = query.split()
+
+        # listen for tweets in a separate thread to render website for user without delays
+        # the process terminates automatically after
         p = Process(target=start_listener, args=query)
         p.start()
+
         # new_tweet = Tweets(text=query, year=2020)
         # new_tweet.save(using='tweets')
         # tweet_id = (Tweets.objects.using('tweets').get(text__exact=query, year=2020)).id
@@ -45,6 +47,8 @@ def about(request):
     return render(request, 'about.html')
 
 
+"""
 def test(request):
     rows = Tweets.objects.using('tweets').all()
     return render(request, 'tweets.html', {'rows': rows})
+"""
