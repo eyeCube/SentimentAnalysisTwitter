@@ -1,5 +1,5 @@
 
-from meta import *
+from ModelTraining.machinegym.meta import *
 
 # taken 4/22/2020; note the prevalence of covid / coronavirus in hashtags
 
