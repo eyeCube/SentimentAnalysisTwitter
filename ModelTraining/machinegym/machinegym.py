@@ -14,12 +14,11 @@
 
 '''
     TODO:
-        tweepy working with machinegym
-        more emotions, more words for each emotion
-            
-        emoticons
+        emoticons? (how popular are these on Twitter??)
+        phrases (may have to use something other than TextBlob)
         
 '''
+
 
 from textblob import TextBlob, tokenizers
 import numpy
@@ -32,6 +31,8 @@ import ModelTraining.machinegym.angry as angry
 import ModelTraining.machinegym.peaceful as peaceful
 import ModelTraining.machinegym.bored as bored
 import ModelTraining.machinegym.fun as fun
+import ModelTraining.machinegym.fear as fear
+import ModelTraining.machinegym.safe as safe
 from ModelTraining.machinegym.grammar import PREFIX_QUALIFIERS, POSTFIX_QUALIFIERS
 
 class G: # global data stored here
