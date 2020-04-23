@@ -34,19 +34,25 @@ import ModelTraining.machinegym.bored as bored
 import ModelTraining.machinegym.fun as fun
 from ModelTraining.machinegym.grammar import PREFIX_QUALIFIERS, POSTFIX_QUALIFIERS
 
-class G: # global data
+class G: # global data stored here
     blob=None
     text=""
     hashtags=set()
 # end class
 
 def score_by_dataframe(dataframe: pandas.DataFrame) -> pandas.DataFrame:
-    newdf=pandas.DataFrame({}, columns=[
+    '''
+        take a pandas DataFrame of tweets, and return a DataFrame of tweets
+            along with sentiment values for each sentiment.
+            (Each row is a tweet)
+        (DataFrames are like tables or dictionaries: 2D grid w/ rows/cols.)
+    '''
+    newdf=pandas.DataFrame({}, columns=[ # define the columns for DataFrame
         'text','happy','sad','angry','peaceful','fun','bored','safe','fear',
         ])
-    for index, row in dataframe.iterrows():
+    for index, row in dataframe.iterrows(): # convert each tweet
         text = row[0]
-        happy = ishappy(text)
+        happy = ishappy(text) # get happy sentiment, etc.
         sad = issad(text)
         angry = isangry(text)
         peaceful = ispeaceful(text)
@@ -57,7 +63,7 @@ def score_by_dataframe(dataframe: pandas.DataFrame) -> pandas.DataFrame:
         row = pandas.DataFrame(
             text,happy,sad,angry,peaceful,fun,bored,safe,fear
             )
-        newdf.concat(newdf, row)
+        newdf.concat(newdf, row) # add row to dataframe
     return newdf
 
 def init():
@@ -71,7 +77,10 @@ def init():
         C__RANKTOF[k] = v
 
 def ranktof(i: int) -> float: # convert C_ const into C__ const
-    ''' get the quality amount for a given integer rank '''
+    '''
+        get the quality amount for a given integer rank
+        (These are values from meta.py used for ranking sentiment-words)
+    '''
     ii = min(C_S, abs(i)) * sign(i)
     return C__RANKTOF.get(ii, 0) #math.sqrt(i)
 def sign(f: float) -> int: # numerical sign, positive, negative, or 0
@@ -79,7 +88,8 @@ def sign(f: float) -> int: # numerical sign, positive, negative, or 0
     if f > 0: return 1
     return 0
 
-def extract_hashtags(text: str) -> set: # get words beginning with '#' (hashtags)
+def extract_hashtags(text: str) -> set:
+    ''' get words beginning with '#' (hashtags) from string text '''
     split=[]
     temp=[]
     for i in text.split('\n'):
@@ -90,6 +100,9 @@ def extract_hashtags(text: str) -> set: # get words beginning with '#' (hashtags
     return set(part[1:] for part in split if part.startswith('#'))
 
 def en_check(blob: TextBlob) -> bool: # is language of text English?
+    # NOTE: we are using pycld2 now, this is not needed.
+    # Although it uses Google Translate API which is more accurate,
+    # it also has a limit on number of requests which is not very high.
     if len(blob) < 3: return False
     return ( blob.detect_language()=='en' )
 
@@ -134,7 +147,11 @@ def sign(number):
     #------------------#
 
 # generic
-def sentiment(func): # wrapper function to initialize an is_sentiment function
+def sentiment(func):
+    '''
+        wrapper function to initialize an is_sentiment function
+        stupidly sets global variables to the G class because why not
+    '''
     def inner(*args, **kwargs):
         text = args[0].lower()
         G.text = text
@@ -142,6 +159,8 @@ def sentiment(func): # wrapper function to initialize an is_sentiment function
         G.hashtags = extract_hashtags(text)
         return func(*args, **kwargs)
     return inner
+
+#~~~# specific sentiments: #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
 
 # happy
 @sentiment
@@ -325,7 +344,19 @@ def try_generic_fear() -> float:
     return __try(temp, fear.HASHTAGS)
 # end def
     
-def __try(_dict: dict, hashtags: str) -> float: # returns quality: float from -1 to 1
+def __try(_dict: dict, hashtags: str) -> float:
+    '''
+        Function to test the sentiment of a string stored in G.text
+        by using a dictionary of sentiment-words and a string of
+        hashtags, both taken from a sentiment file such as happy.py.
+        
+        Parameters:
+            _dict: dictionary of sentiment-words to try to match
+                {word : ranking}
+            hashtags: string of hashtags to try to match
+        Returns:
+            quality: float from -1 to 1
+    '''
     # init
     matches = []
     _add_common_misspellings(_dict)
@@ -349,8 +380,7 @@ def __try(_dict: dict, hashtags: str) -> float: # returns quality: float from -1
     # iterate over all nouns
     _tk = tokenizers.WordTokenizer()
     for word in _tk.itokenize(G.text, include_punc=True): # blob.noun_phrases
-        # TODO: get and compare phrases instead of words (HOW TO?)
-        # (common word pairs -- words that commonly go together)
+        # (common word pairs -- words that commonly go together?)
         
         # hashtags
 ##        if '#'==word:
@@ -384,7 +414,6 @@ def __try(_dict: dict, hashtags: str) -> float: # returns quality: float from -1
             if k == word:
                 # check for context (negation?, qualifiers?, etc.)
                     # qualifiers e.g. "very", "slightly" etc.
-                #   (TODO)
                 lastQuality = nextQuality_m*(nextQuality_a + ranktof(v))
                 quality += lastQuality
                 matches.append(word)
@@ -393,9 +422,8 @@ def __try(_dict: dict, hashtags: str) -> float: # returns quality: float from -1
         # end for
     # end for
     
-    # take into account the frequency of selected words
-    # and their ratio to the total number of words
-        # TODO
+    # idea: take into account the frequency of selected words
+    #   and their ratio to the total number of words?
 ##    numMatches = len(matches)
     
 ##    print("final q: ",quality)
@@ -413,6 +441,7 @@ def get_training_data_from_text(sentiment: str, *args):
         data.append(test(arg, sentiment))
 
 if __name__ == "__main__":
+    ''' testing '''
     init()
     _tk = tokenizers.WordTokenizer()
     words = []
@@ -429,6 +458,7 @@ if __name__ == "__main__":
 ##        for word in _tk.itokenize(text):
 ##            words.append(word)
 ##            print(word.lower())
+
 
 
 
