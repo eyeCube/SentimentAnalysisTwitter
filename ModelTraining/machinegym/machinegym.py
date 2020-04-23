@@ -26,12 +26,12 @@ import numpy
 import pandas
 
 from ModelTraining.machinegym.meta import *
-import ModelTraining.machinegym.happy
-import ModelTraining.machinegym.sad
-import ModelTraining.machinegym.angry
-import ModelTraining.machinegym.peaceful
-import ModelTraining.machinegym.bored
-import ModelTraining.machinegym.fun
+import ModelTraining.machinegym.happy as happy
+import ModelTraining.machinegym.sad as sad
+import ModelTraining.machinegym.angry as angry
+import ModelTraining.machinegym.peaceful as peaceful
+import ModelTraining.machinegym.bored as bored
+import ModelTraining.machinegym.fun as fun
 from ModelTraining.machinegym.grammar import PREFIX_QUALIFIERS, POSTFIX_QUALIFIERS
 
 class G: # global data
