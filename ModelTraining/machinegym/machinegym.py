@@ -128,7 +128,7 @@ def sign(number):
 # generic
 def sentiment(func): # wrapper function to initialize an is_sentiment function
     def inner(*args, **kwargs):
-        text = args[0]
+        text = args[0].lower()
         G.text = text
         G.blob = TextBlob(text)
         G.hashtags = extract_hashtags(text)
