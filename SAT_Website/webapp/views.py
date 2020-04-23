@@ -2,6 +2,8 @@ from .models import *
 from django.shortcuts import render
 from django.http import HttpResponse
 from django.http import Http404
+from .async_listener import start_listener
+from multiprocessing import Process
 
 
 def home(request):
@@ -21,18 +23,22 @@ def search(request):
             new.save()
         return render(request, 'newemail.html', {'text': "Thanks!"})
     query = request.GET.get('q')
+    year = request.GET.get('tweet_year')
     try:
-        tweets = Tweets.objects.using('tweets').filter(text__icontains=query)
+        tweets = Tweets.objects.using('tweets').all().filter(text__icontains=' ' + query + ' ', year=year)[:10]
         tweets[0]
     except IndexError:
         # insert whatever tweepy must do here
         # note: query contains the text  being looked for by user
-        new_tweet = Tweets(text=query, year=2020)
-        new_tweet.save(using='tweets')
-        tweet_id = (Tweets.objects.using('tweets').get(text__exact=query, year__exact=2020)).id
+        query = query.split()
+        p = Process(target=start_listener, args=query)
+        p.start()
+        # new_tweet = Tweets(text=query, year=2020)
+        # new_tweet.save(using='tweets')
+        # tweet_id = (Tweets.objects.using('tweets').get(text__exact=query, year=2020)).id
+        tweet_id = 1
         return render(request, 'newemail.html', {'tweet_id': tweet_id})
-    email = Email.objects.get(Email='andre@guiraud.biz')
-    return render(request, 'results.html', {'email': email})
+    return render(request, 'results.html', {'tweets': tweets})
 
 
 def about(request):

@@ -31,7 +31,23 @@
                 <a class="nav-link" href="{% url 'about' %}">About</a>
             </li>
             <form class="form-inline my-2 my-lg-0 pl-3" method="get" action="/search/">
-                <input class="form-control mr-sm-1" type="search" name="q" id="id_q" placeholder="New search" aria-label="Search" value="{{ query }}" required>
+                <div class="input-group">
+                    <input class="form-control" type="search" name="q" id="id_q" placeholder="New search" aria-label="Search" value="{{ query }}" required>
+                    <div class="input-group-append">
+                    <select class="custom-select mr-2 rounded-right" name="tweet_year" id="tweet_year" style="margin-left: -2px; outline: none !important; box-shadow: none !important;">
+                        <option value="2020" select>Current Year</option>
+                        <option disabled>─────────</option>
+                        <!-- <option disabled>----------------</option> -->
+                        <option value="2019">2019</option>
+                        <option value="2018">2018</option>
+                        <option value="2017">2017</option>
+                        <option value="2016">2016</option>
+                        <option value="2015">2015</option>
+                        <option value="2014">2014</option>
+                        <option value="2014">2013</option>
+                    </select>
+                    </div>
+                </div>
                 <button class="btn btn-outline-light my-2 my-sm-0" type="submit">Search</button>
             </form>
         </ul>

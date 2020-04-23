@@ -77,7 +77,6 @@ WSGI_APPLICATION = 'SAT_Website.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 
-
 if 'RDS_HOSTNAME' in os.environ:
     DATABASES = {
         'default': {
@@ -145,7 +144,7 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
-STATIC_ROOT = os.path.join(BASE_DIR, '..', 'www', 'static')
+STATIC_ROOT = os.path.join(BASE_DIR, 'webapp/static/assets')
 STATIC_URL = '/static/'
 
 STATICFILES_DIRS = [
