@@ -1,5 +1,0 @@
-RDS_HOSTNAME=aa12q6nor5j01kx.ckrtpzmb9vsn.us-east-1.rds.amazonaws.com
-RDS_PASSWORD=Django123!
-RDS_PORT=3306
-RDS_USERNAME=satrds
-RDS_DB_NAME=ebdb
