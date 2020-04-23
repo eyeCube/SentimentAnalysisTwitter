@@ -5,6 +5,7 @@
     <p id="p1">Enter your information to be notified when it is available:</p>
 </div>
 <form method="post" action="">
+  <input type="hidden" name="tweet_id" value="{{ tweet_id }}">
   {% csrf_token %}
   <div class="form-group">
 
@@ -23,7 +24,6 @@
         <button type="submit" class="btn btn-dark">Submit</button>
     </div>
 </form>
-
-    <br>
-&ensp;<strong>{{ text }}</strong>
+    
+&ensp;<p id="p1"><strong>{{ text }}</strong></p>
 {% endblock content %}

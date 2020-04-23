@@ -2,17 +2,11 @@
 {% block content %}
 
 <div>
-    {% if email %}
-        <p>Name: {{ email.name | capfirst }}</p>
-        <p>Email: {{ email.Email }}</p>
-        <p>Email sent:
-            {% if email.EmailSent %}
-                True.
-            {% else %}
-                False.
-            {% endif %}
-        </p>
-    {% endif %}
+{% for x in tweets %}
+    <p>ID: {{ x.id }}</p>
+    <p>text: {{ x.text }}</p>
+    <p>year: {{ x.year }}</p>
+{% endfor %}
 </div>
 
 {% endblock content %}

@@ -30,6 +30,9 @@
             <li class="nav-item pl-3">
                 <a class="nav-link" href="{% url 'about' %}">About</a>
             </li>
+            <li class="nav-item pl-3">
+                <a class="nav-link" href="{% url 'test' %}">Test tweet database</a>
+            </li>
         </ul>
     </div>
     </nav>
@@ -45,8 +48,20 @@
                 <div style="padding-top: 35px;">
                     <form method="get" action="/search/">
                         <div class="input-group mb-3">
-                                <input class="form-control" type="text" placeholder="Search term" name="q" id="id_q" value="{{ query }}" required/>
+                                <input class="form-control border-right-0" type="text" placeholder="Search term" name="q" id="id_q" value="{{ query }}" required/>
                             <div class="input-group-append">
+                                <select class="custom-select border-secondary rounded-0 border-right-0" name="tweet_year" id="tweet_year" style="margin-left: 1px; width: 130px; outline: none !important; box-shadow: none !important;">
+                                    <option value="2020" select>Current Year</option>
+                                    <option disabled>─────────</option>
+                                    <!-- <option disabled>----------------</option> -->
+                                    <option value="2019">2019</option>
+                                    <option value="2018">2018</option>
+                                    <option value="2017">2017</option>
+                                     <option value="2016">2016</option>
+                                     <option value="2015">2015</option>
+                                     <option value="2014">2014</option>
+                                     <option value="2014">2013</option>
+                                </select>
                                 <button class="btn btn-outline-secondary" type="submit">Submit</button>
                             </div>
                         </div>
