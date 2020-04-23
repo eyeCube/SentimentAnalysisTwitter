@@ -42,7 +42,7 @@ class G: # global data
 
 def score_by_dataframe(dataframe: pandas.DataFrame) -> pandas.DataFrame:
     newdf=pandas.DataFrame({}, columns=[
-        'text','happy','sad','angry','peaceful','fun','bored'
+        'text','happy','sad','angry','peaceful','fun','bored','safe','fear',
         ])
     for index, row in dataframe.iterrows():
         text = row[0]
@@ -52,7 +52,11 @@ def score_by_dataframe(dataframe: pandas.DataFrame) -> pandas.DataFrame:
         peaceful = ispeaceful(text)
         fun = isfun(text)
         bored = isbored(text)
-        row = pandas.DataFrame(text,happy,sad,angry,peaceful,fun,bored)
+        safe = issafe(text)
+        fear = isafraid(text)
+        row = pandas.DataFrame(
+            text,happy,sad,angry,peaceful,fun,bored,safe,fear
+            )
         newdf.concat(newdf, row)
     return newdf
 
@@ -103,14 +107,18 @@ def test(text: str, _type: str, digital=True):
         return ishappy(text, digital=digital)
     if _type=='sad':
         return issad(text, digital=digital)
-    if _type=='angry':
+    if (_type=='angry' or _type=='mad'):
         return isangry(text, digital=digital)
-    if _type=='peaceful':
+    if (_type=='peaceful' or _type=='peace'):
         return ispeaceful(text, digital=digital)
     if _type=='fun':
         return isfun(text, digital=digital)
-    if _type=='bored':
+    if (_type=='bored' or _type=='boredom'):
         return isbored(text, digital=digital)
+    if (_type=='safe' or _type=='safety'):
+        return issafe(text, digital=digital)
+    if (_type=='fear' or _type=='afraid'):
+        return isafraid(text, digital=digital)
     #TODO: other sentiments
 # end def
 
@@ -219,6 +227,34 @@ def isbored(text: str, digital=True) -> float:
         return quality
 # end def
 
+# sad
+@sentiment
+def issafe(text: str, digital=True) -> float:
+    quality = 0
+    # try to match words & context to change the disposition
+    quality -= try_generic_safety()
+    quality += try_generic_fear()
+    #
+    if digital:
+        return get_digital(quality)
+    else:
+        return quality
+# end def
+
+# sad
+@sentiment
+def isafraid(text: str, digital=True) -> float:
+    quality = 0
+    # try to match words & context to change the disposition
+    quality += try_generic_fear()
+    quality -= try_generic_safety()
+    #
+    if digital:
+        return get_digital(quality)
+    else:
+        return quality
+# end def
+
     #-------------#
     #     try     #
     #-------------#
@@ -271,6 +307,22 @@ def try_generic_bored() -> float:
     for k,v in bored.DATA.items():
         temp[k]=v
     return __try(temp, bored.HASHTAGS)
+# end def
+    
+# happy
+def try_generic_safety() -> float:
+    temp={}
+    for k,v in safe.DATA.items():
+        temp[k]=v
+    return __try(temp, safe.HASHTAGS)
+# end def
+
+# sad
+def try_generic_fear() -> float:
+    temp={}
+    for k,v in fear.DATA.items():
+        temp[k]=v
+    return __try(temp, fear.HASHTAGS)
 # end def
     
 def __try(_dict: dict, hashtags: str) -> float: # returns quality: float from -1 to 1
@@ -377,7 +429,6 @@ if __name__ == "__main__":
 ##        for word in _tk.itokenize(text):
 ##            words.append(word)
 ##            print(word.lower())
-
 
 
 
