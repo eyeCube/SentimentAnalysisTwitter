@@ -1,12 +1,15 @@
 import django
+
 django.setup()
 from .streamlistener import listen
 from .ModelTraining.NuancedSentimentDetection.AnalyzeSentiment import get_sentiment
-from .models import Tweets, Tags
+from .models import Tweets, Tags, Terms
 import os
 
 
 def start_listener(*args):
+    args = list(args)
+    term_id = args.pop()
     tweets = []
     listener = listen(100, args)
     print("Starting listener...")
@@ -31,4 +34,9 @@ def start_listener(*args):
             break
 
     print("Analysing...")
-    print(get_sentiment(tweets))
+    positivity, sentiment = get_sentiment(tweets)
+    print("Finished analysing, saving results...")
+    term = Terms.objects.using('tweets').get(id=term_id)
+    term.positivity = positivity
+    term.sentiment = sentiment
+    term.save(using='tweets')

@@ -24,7 +24,7 @@ class Terms(models.Model):
     id = models.IntegerField(primary_key=True)
     term = models.CharField(max_length=356)
     year = models.CharField(max_length=4)
-    positivity = models.DecimalField(max_length=10)
+    positivity = models.FloatField()
     sentiment = models.CharField(max_length=20)
 
     class Meta:

@@ -32,14 +32,17 @@ def search(request):
     except Terms.DoesNotExist:
         split_query = query.split()
 
+        new_term = Terms(term=query, year=year)
+        new_term.save(using='tweets')
+        term_id = Terms.objects.using('tweets').get(term__exact=query, year=year).id
+
+        split_query.append(term_id)
         # listen for tweets in a separate thread to render website for user without delays
         # the process terminates automatically after
         p = Process(target=start_listener, args=split_query)
         p.start()
 
-        new_term = Terms(term=query, year=year)
-        new_term.save(using='tweets')
-        term_id = Terms.objects.using('tweets').get(term__exact=query, year=year).id
+
         return render(request, 'newemail.html', {'term_id': term_id})
     return render(request, 'results.html', {'term': term})
 
