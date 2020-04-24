@@ -38,10 +38,12 @@ def get_sentiment(tweets):
     machine_gym_score.reset_index(drop=True, inplace=True)
     predictors = pd.concat([NB_score, machine_gym_score.iloc[:,1:]], axis=1)
     results = model.predict(predictors)
-    results = np.subtract(np.divide(np.bincount(results, minlength=8), np.sum(np.bincount(results, minlength=8))), normlization_values)
-    results = np.append(results[:,np.newaxis], np.arange(results.shape[0])[:,np.newaxis], 1)
-    results = np.flip(results[np.argsort(results[:, 0])][:, 1])
-    most_frequent = np.vectorize(sentiments.get)(results)
+    results = np.subtract(np.bincount(results, minlength=8), normlization_values)
+    if np.any(results < 0):
+        results = np.subtract(results, np.min(results))
+    results = np.append(results[:,np.newaxis],np.arange(results.shape[0])[:,np.newaxis], 1)
+    results[:,0] = np.divide(results[:,0], np.sum(results[:,0]))
+    most_frequent = {sentiments[x]:y for y, x in results}
 
     rating = predict_sentiment(tweets)
     rating = np.asarray(np.unique(rating, return_counts=True))
@@ -73,6 +75,6 @@ def predict_NB(data):
 
 if __name__ == '__main__':
    tweets = pd.read_csv('text.csv')['text']
-   tweets = ['knteroristard68: #PushAwardsKathNiels https://t.co/B3930cYHrR #PepsiChallenge', '@KevLAbeast #CrystalPepsi let it rest for 20 years. than taste it again', 'New Post: #Security Officer (Lakewood) #Denver #Den #Hiring #Job https://t.co/qHZPepSi58']
+   #tweets = ['knteroristard68: #PushAwardsKathNiels https://t.co/B3930cYHrR #PepsiChallenge', '@KevLAbeast #CrystalPepsi let it rest for 20 years. than taste it again', 'New Post: #Security Officer (Lakewood) #Denver #Den #Hiring #Job https://t.co/qHZPepSi58']
    results = get_sentiment(tweets)
    print(results)
