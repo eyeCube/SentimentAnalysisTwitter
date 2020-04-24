@@ -5,14 +5,14 @@ from ModelTraining.machinegym.meta import *
 EMOTES=('):<','>:(','D:','D:<','d:<','>:e','>:v','v:<','-__-','-_-',
         '-.-','._.',)
 
-HASHTAGS='''#angry #love #sad #art #cute #follow #like #happy #funny
-#mad #instagram #drawing #meme #mood #instagood #cat #angryface #music
-#angryeyes #likeforlikes #memes #smile #anime #photography #black
-#angrybirds #attitude #lol #fun #bhfyp #anger #life #angryfeminist #red
-#d #jealous #jiiva #photooftheday #angrymom #angrybaby #tiktok
-#angryallthetime #artist #girl #angryme #angrymood #beautiful #likes
-#followforfollowback #animals #comedy #canon #sketch #happiness #animal
-#angrywoman #digitalart #catsofinstagram #angrycat #angryyoungman
+HASHTAGS='''#angry 
+#mad #angryface 
+#angryeyes 
+#attitude #anger #angryfeminist 
+#jealous #angrymom #angrybaby 
+#angryallthetime #angryme #angrymood 
+#sketch 
+#angrywoman #catsofinstagram #angrycat #angryyoungman
 #angryorchard #angrycat #angryface #angrybaby #angrydog #angrykitty
 #angryeyes #angrymom #angrysky #angryman #angrygirl #angrybeavers
 #angrycats #angrylook'''
