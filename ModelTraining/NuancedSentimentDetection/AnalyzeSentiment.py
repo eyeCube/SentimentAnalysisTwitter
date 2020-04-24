@@ -40,8 +40,6 @@ def get_sentiment(tweets):
     results = model.predict(predictors)
     results = np.subtract(np.divide(np.bincount(results, minlength=8), np.sum(np.bincount(results, minlength=8))), normlization_values)
     most_frequent = np.argmax(results)
-    print(results)
-    print(most_frequent)
 
     rating = predict_sentiment(tweets)
     rating = np.asarray(np.unique(rating, return_counts=True))
