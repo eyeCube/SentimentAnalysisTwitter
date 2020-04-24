@@ -90,8 +90,9 @@ if 'RDS_HOSTNAME' in os.environ:
             'PASSWORD': os.environ['RDS_PASSWORD'],
             'HOST': 'satdbinstance.ckrtpzmb9vsn.us-east-1.rds.amazonaws.com',
             'PORT': os.environ['RDS_PORT'],
+            'CONN_MAX_AGE': 12000,
             'OPTIONS': {
-                        'charset': 'utf8'
+                        'charset': 'utf8',
             }
         }
     }
