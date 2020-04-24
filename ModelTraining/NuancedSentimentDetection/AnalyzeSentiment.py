@@ -43,7 +43,13 @@ def get_sentiment(tweets):
 
     rating = predict_sentiment(tweets)
     rating = np.asarray(np.unique(rating, return_counts=True))
-    percentage_positive = rating[1, 1] / np.sum(rating[1,:])
+    if rating.shape[1] == 1:
+        if rating[0,0] == 4:
+            percentage_positive = 1
+        else:
+            percentage_positive = 0
+    else:
+        percentage_positive = rating[1, 1] / np.sum(rating[1,:])
     return percentage_positive, sentiments[most_frequent]
 
 def predict_NB(data):
@@ -65,5 +71,6 @@ def predict_NB(data):
 
 if __name__ == '__main__':
    tweets = pd.read_csv('text.csv')['text']
+   tweets = ['knteroristard68: #PushAwardsKathNiels https://t.co/B3930cYHrR #PepsiChallenge', '@KevLAbeast #CrystalPepsi let it rest for 20 years. than taste it again', 'New Post: #Security Officer (Lakewood) #Denver #Den #Hiring #Job https://t.co/qHZPepSi58']
    results = get_sentiment(tweets)
    print(results)
