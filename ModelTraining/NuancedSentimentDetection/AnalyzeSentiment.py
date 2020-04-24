@@ -4,6 +4,7 @@ import numpy as np
 from ModelTraining.machinegym.machinegym import score_by_dataframe
 from os import path
 from ModelTraining.NaiveBayesModel.PredictSentiment import predict_sentiment
+from sklearn.preprocessing import normalize
 
 sentiments = {
     0:'angry',
@@ -16,6 +17,8 @@ sentiments = {
     7:'bored'
 }
 
+normlization_values =[0.00000000e+00, 0.00000000e+00, 0.00000000e+00, 7.41499385e-02,
+ 3.32240885e-01, 4.09668169e-04, 5.91151168e-01, 2.04834084e-03]
 
 # get tweet sentiment
 # input: sequence of tweets
@@ -34,11 +37,13 @@ def get_sentiment(tweets):
     machine_gym_score.reset_index(drop=True, inplace=True)
     predictors = pd.concat([NB_score, machine_gym_score.iloc[:,1:]], axis=1)
     results = model.predict(predictors)
-    most_frequent = np.argmax(np.bincount(results))
+    results = np.subtract(np.divide(np.bincount(results), np.sum(np.bincount(results))), normlization_values)
+    most_frequent = np.argmax(results)
+    print(results)
+    print(most_frequent)
 
     rating = predict_sentiment(tweets)
     rating = np.asarray(np.unique(rating, return_counts=True))
-
     percentage_positive = rating[1, 1] / np.sum(rating[1,:])
     return percentage_positive, sentiments[most_frequent]
 
