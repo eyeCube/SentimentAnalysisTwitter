@@ -22,7 +22,7 @@ normlization_values =[0.00000000e+00, 0.00000000e+00, 0.00000000e+00, 7.41499385
 
 # get tweet sentiment
 # input: sequence of tweets
-# output: percentage of positive tweets, most common emotion
+# output: percentage of positive tweets, [sentiments from most to least common]
 def get_sentiment(tweets):
     model_path = path.join(path.dirname(__file__), 'LR.pickle')
     with open(model_path, 'rb') as f:
@@ -39,7 +39,9 @@ def get_sentiment(tweets):
     predictors = pd.concat([NB_score, machine_gym_score.iloc[:,1:]], axis=1)
     results = model.predict(predictors)
     results = np.subtract(np.divide(np.bincount(results, minlength=8), np.sum(np.bincount(results, minlength=8))), normlization_values)
-    most_frequent = np.argmax(results)
+    results = np.append(results[:,np.newaxis], np.arange(results.shape[0])[:,np.newaxis], 1)
+    results = np.flip(results[np.argsort(results[:, 0])][:, 1])
+    most_frequent = np.vectorize(sentiments.get)(results)
 
     rating = predict_sentiment(tweets)
     rating = np.asarray(np.unique(rating, return_counts=True))
@@ -50,7 +52,7 @@ def get_sentiment(tweets):
             percentage_positive = 0
     else:
         percentage_positive = rating[1, 1] / np.sum(rating[1,:])
-    return percentage_positive, sentiments[most_frequent]
+    return percentage_positive, most_frequent
 
 def predict_NB(data):
     model_path = path.join(path.dirname(__file__), 'NB_model.pickle')
