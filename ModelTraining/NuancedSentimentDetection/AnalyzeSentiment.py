@@ -38,7 +38,7 @@ def get_sentiment(tweets):
     machine_gym_score.reset_index(drop=True, inplace=True)
     predictors = pd.concat([NB_score, machine_gym_score.iloc[:,1:]], axis=1)
     results = model.predict(predictors)
-    results = np.subtract(np.divide(np.bincount(results), np.sum(np.bincount(results))), normlization_values)
+    results = np.subtract(np.divide(np.bincount(results, minlength=8), np.sum(np.bincount(results, minlength=8))), normlization_values)
     most_frequent = np.argmax(results)
     print(results)
     print(most_frequent)
