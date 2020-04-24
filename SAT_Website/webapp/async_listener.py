@@ -14,6 +14,8 @@ def start_listener(*args):
     listener = listen(100, args)
     print("Starting listener...")
 
+    # crappy loop, gets the job done.
+    # from our generator we receive tweet objects for sorting and collection
     while True:
         if listener.done:
             for tweet in listener.get_tweets():
@@ -22,6 +24,7 @@ def start_listener(*args):
                 new_tweet = Tweets(text=tweet.text, year=tweet.year)
                 new_tweet.save(using='tweets')
                 if tweet.hashtags:
+                    # some tweets were failing because of unicode characters, added in to continue exec
                     try:
                         tweet_id = Tweets.objects.using('tweets').all().filter(text__iexact=tweet.text, year=tweet.year)
                         tweet_id[0]
@@ -33,6 +36,7 @@ def start_listener(*args):
                         new_tag.save(using='tweets')
             break
 
+    # save sentiment value for collection of tweets
     print("Analysing...")
     positivity, sentiment = get_sentiment(tweets)
     print("Finished analysing, saving results...")
