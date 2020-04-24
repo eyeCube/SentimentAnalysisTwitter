@@ -62,9 +62,9 @@ def score_by_dataframe(dataframe: pandas.DataFrame) -> pandas.DataFrame:
         safe = issafe(text)
         fear = isafraid(text)
         row = pandas.DataFrame(
-            text,happy,sad,angry,peaceful,fun,bored,safe,fear
+            [[text,happy,sad,angry,peaceful,fun,bored,safe,fear]], columns=newdf.columns
             )
-        newdf.concat(newdf, row) # add row to dataframe
+        newdf = pandas.concat([newdf, row], axis=0) # add row to dataframe
     return newdf
 
 def init():
