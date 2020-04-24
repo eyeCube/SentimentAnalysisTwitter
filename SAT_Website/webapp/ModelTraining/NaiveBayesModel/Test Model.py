@@ -6,7 +6,7 @@ import sklearn
 import pickle
 import numpy as np
 
-DIR = r'/'
+DIR = r'./'
 infile = DIR + 'validation_data.npy'
 model_path = 'NB.pickle'
 vectorizer_path = 'vectorizer.pickle'

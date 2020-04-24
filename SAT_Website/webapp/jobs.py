@@ -9,7 +9,7 @@ from .models import *
 
 # global variables
 current_site = Site.objects.get_current()
-url = Template('$site/search/?q=$tweet')
+url = Template('$site/search/?q=$term&tweet_year=$year')
 
 
 def send_email():
@@ -22,8 +22,13 @@ def send_email():
         email.save()
 
         # customize url for user
-        new_url = url.substitute(site=current_site.domain, tweet=(Tweets.objects.using('tweets')
-                                                                  .get(id__exact=email.tweet_id)).text)
+        # /search/?q=realDonaldTrump&tweet_year=2020
+        term_o = Terms.objects.using('tweets').get(id=email.term_id)
+        new_url = url.substitute(
+            site=current_site.domain,
+            term=term_o.term,
+            year=term_o.year
+        )
 
         html = render_to_string('email.html', {'url': new_url})
 

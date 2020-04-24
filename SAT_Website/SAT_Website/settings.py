@@ -22,7 +22,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = 'j)6v4r4!%ce_qdc2f_oecl!fd7vq6nz+f1f5uyhjivjwsy4s+='
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = [
     '*',
@@ -88,8 +88,11 @@ if 'RDS_HOSTNAME' in os.environ:
             'NAME': os.environ['RDS_DB_NAME'],
             'USER': os.environ['RDS_USERNAME'],
             'PASSWORD': os.environ['RDS_PASSWORD'],
-            'HOST': os.environ['RDS_HOSTNAME'],
+            'HOST': 'satdbinstance.ckrtpzmb9vsn.us-east-1.rds.amazonaws.com',
             'PORT': os.environ['RDS_PORT'],
+            'OPTIONS': {
+                        'charset': 'utf8'
+            }
         }
     }
 else:
@@ -145,7 +148,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'webapp/static/assets')
-STATIC_URL = '/static/assets/'
+STATIC_URL = '/static/'
 
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'webapp/static'),

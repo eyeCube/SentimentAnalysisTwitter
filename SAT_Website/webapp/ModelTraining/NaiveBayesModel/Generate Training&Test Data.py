@@ -17,7 +17,7 @@ def generate_training_data(infile):
     return training_data, validation_data, test_data
 
 if __name__ == '__main__':
-    DIR = r'/'
+    DIR = r'./'
     infile = DIR + 'processedData.npy'
     training_data, validation_data, test_data = generate_training_data(infile)
     np.save(DIR + 'training_data', training_data, allow_pickle=True)

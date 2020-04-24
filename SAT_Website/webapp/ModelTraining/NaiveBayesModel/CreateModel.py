@@ -11,12 +11,13 @@ from sklearn.feature_extraction.text import HashingVectorizer
 def create_model(training_data, vectorizer=None):
     model = MultinomialNB()
     if vectorizer is None:
-        vectorizer = HashingVectorizer(2 ** 20, strip_accents='unicode', norm=None, alternate_sign=False)
+        vectorizer = HashingVectorizer(2**20, strip_accents='unicode', norm=None, alternate_sign=False)
+
+    training_data =  training_data.to_numpy()
     x = vectorizer.transform(training_data[:, 0])
-    y = training_data[:, 1].astype('int')
+    y =  training_data[:, 1].astype('int')
     model.fit(x, y)
     return model, vectorizer
-
 
 if __name__ == '__main__':
     training_data = np.load('training_data.npy', allow_pickle=True)
