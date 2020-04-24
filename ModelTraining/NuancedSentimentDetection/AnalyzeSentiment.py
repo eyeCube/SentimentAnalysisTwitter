@@ -28,7 +28,8 @@ def get_sentiment(tweets):
     with open(model_path, 'rb') as f:
         model = pickle.load(f)
 
-    machine_gym_score = score_by_dataframe(pd.DataFrame(tweets))
+    tweets = pd.DataFrame(tweets)
+    machine_gym_score = score_by_dataframe(tweets)
     tweets = tweets.str.lower()  # make the tweets all lowercase
     tweets.replace(regex=True, inplace=True, to_replace=r'[^a-z\s]',
                  value='')  # Remove punctuation and numbers from tweets
