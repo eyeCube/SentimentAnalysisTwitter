@@ -7,14 +7,14 @@ from ModelTraining.machinegym.meta import *
 EMOTES=('O.O','o.o','O_O','o_o',':(','):','=(',')=',':[',']:','=[',']=',
         'D:',)
 
-HASHTAGS='''#fear #love #anxiety #covid #horror #life #coronavirus
-#mentalhealth #art #depression #faith #hope #motivation #fearless #scary
-#dark #quotes #courage #creepy #corona #peace #poetry #success #stress
-#selflove #inspiration #terror #halloween #pain #bhfyp #photography
-#pandemic #god #healing #death #you #mindset #believe #seventeen #truth
-#emotions #instagram #selfcare #panic #miedo #anger #drawing #darkness
-#trust #worry #follow #meditation #scared #sadness #artist #happiness
-#happy #freedom #power #ghost #fearofgod #fears #fearthewalkingdead
+HASHTAGS='''#fear #anxiety #covid #horror #coronavirus
+#scary
+#dark #creepy #corona #stress
+#terror #halloween 
+#pandemic #death
+#panic #miedo #darkness
+#scared 
+#ghost #fearofgod #fears #fearthewalkingdead
 #fearofheights'''
 
 DATA={

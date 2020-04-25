@@ -1,13 +1,13 @@
 
 from ModelTraining.machinegym.meta import *
 
-HASHTAGS=''' #sadness #sad #love #depression #alone #quotes #broken
-#depressed #life #sadedits #brokenheart #follow #mood #like #anxiety #pain
-#lonely #crying #lovequotes #heartbroken #art #cry #sadgirl #poetry
-#instagram #l #sadvideos #sadboy #tears #bhfyp #help #feelings
-#sadquotespage #triste #dark #aesthetic #suicide #bhfyp #hate #hope #tumblr
-#photography #hurt #s #emotions #darkness #likeforlikes #insta #me #sadposts
-#sadlife #death #upset #mentalhealth #explorepage #heart #anime
+HASHTAGS=''' #sadness #sad #depression #alone #broken
+#depressed #sadedits #brokenheart 
+#lonely #crying #heartbroken #cry #sadgirl 
+#sadboy #tears 
+#sadquotespage #triste #suicide 
+#hurt #emotions #sadposts
+#sadlife #death #upset 
 #sadqoutes #sadnessquotes #sadnessandsorrow #sadnesss #sadnessinsideout
 #sadnessoverload #sadnesstime #sadnessday #sadnessisablessing
 #sadnessisarebellion #sadnessquotess #sadnessgoaway #sadnesscosplay
