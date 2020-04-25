@@ -8,12 +8,11 @@ EMOTES=(":d",":D","^_^",": d",">3",":)","(:","=)","(=","=D","8)","=]",
         "8d","8D","8P",":P",":p","=P","=p","^^","8^d",":')","=')",)
 
 HASHTAGS='''#fun #love #instagood #happy #like #follow #friends #smile
-#photooftheday #funny #cute #beautiful #me #life #followme #instadaily
-#picoftheday #instagram #art #fashion #photography #style #music #family
-#party #memes #travel #selfie #nature #bhfyp #girl #summer #dance #meme
-#food #fitness #instalike #igers #lol #funnymemes #kids #tbt #amazing
-#photo #comedy #instamood #myself #cool #likeforlikes #bhfyp #beauty
-#lifestyle #repost #sun #sport #adventure #f #happiness #holiday
+#funny #cute #beautiful 
+#party #memes #travel #selfie #nature #summer #dance #meme
+#food #fitness #instalike #igers #lol #funnymemes #kids #amazing
+#comedy 
+#adventure #happiness #holiday
 #motivation #funny #funnymemes #funnytimes #funnyvideos #funday
 #funnyshit #funnymeme #funk #funtime #funkopop #funko #funnypictures
 #funinthesun #funtionaltraining #funnight #funcional #funky #fundraiser

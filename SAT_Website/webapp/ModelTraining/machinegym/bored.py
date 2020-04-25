@@ -4,13 +4,9 @@ from .meta import *
 
 EMOTES=('-__-','-_-','-.-','._.',':/','=/',':\\','=\\',)
 
-HASHTAGS='''#bored #follow #like #love #art #life #instagood #selfie #me
-#cute #followme #funny #photooftheday #music #beautiful #girl #instagram
-#f #work #smile #cool #l #likes #snapchat #lol #memes #boredaf #pretty
-#happy #bhfyp #tired #likeforlikes #girls #baby #explorepage #instadaily
-#photo #mood #meme #shots #black #hot #billieeilish #fun #all #drawing
-#friends #followforfollowback #aesthetic #explore #my #hair #blue #sad
-#beauty #awesome #instagramers #fashion #makeup #family #boredaf
+HASHTAGS='''#bored 
+#work #boredaf 
+#tired 
 #boredatwork #boredasfuck #boredasf #boredomstrikes #boredrp
 #boredpanda #boredd #boredtodeath #boredselfie #boredkikme #boredum
 #boredomkills #boredem #boredoutofmymind #boredathome #boredinclass

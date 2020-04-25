@@ -6,13 +6,13 @@ EMOTES=("^_^",":)","(:","=)","(=","=D","8)","=]","^^","^-^","^__^",
 
 # (in order from highest to lowest match)
 HASHTAGS='''#peaceful #nature #peace #love #photography #sunset #beautiful
-#travel #naturephotography #peaceofmind #calm #meditation #life #relax
-#happy #photooftheday #instagood #landscape #happiness #winter #art
-#mindfulness #sky #beach #travelphotography #yoga #beauty #instagram
-#india #bhfyp #ig #relaxing #follow #landscapephotography #positivevibes
+#naturephotography #peaceofmind #calm #meditation #life #relax
+#landscape
+#mindfulness #sky #beach #travelphotography #yoga 
+#relaxing  #landscapephotography 
 #clouds #sea #peaceandlove #trees #mountains #photo #sunrise #wanderlust
-#goodvibes #explore #naturelovers #blessed #snow #adventure #family
-#grateful #forest #instadaily #world #view #zen #smile #green #serenity
+#naturelovers #blessed #snow #
+#zen #serenity
 #ocean #peacefull #peacefulplace #peacefulmind #peacefulpakistan
 #peacefulness #peacefully #peacefullife #peacefulparenting
 #peacefulhooligan #peacefulmorning #peacefulliving #peacefulnight

@@ -26,6 +26,7 @@ class Terms(models.Model):
     year = models.CharField(max_length=4)
     positivity = models.FloatField()
     sentiment = models.CharField(max_length=20)
+    r_tweet = models.TextField()
 
     class Meta:
         managed = False

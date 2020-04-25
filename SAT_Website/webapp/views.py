@@ -4,7 +4,8 @@ from django.http import HttpResponse
 from django.http import Http404
 from .async_listener import start_listener
 from multiprocessing import Process
-from .ModelTraining.NuancedSentimentDetection.AnalyzeSentiment import get_sentiment
+import ast
+import json
 
 
 def home(request):
@@ -36,15 +37,21 @@ def search(request):
         new_term.save(using='tweets')
         term_id = Terms.objects.using('tweets').get(term__exact=query, year=year).id
 
+        # save args to pass them together to threaded function
         split_query.append(term_id)
+        split_query.append(year)
+
         # listen for tweets in a separate thread to render website for user without delays
         # the process terminates automatically after
         p = Process(target=start_listener, args=split_query)
         p.start()
 
-
         return render(request, 'newemail.html', {'term_id': term_id})
-    return render(request, 'results.html', {'term': term})
+    dic = ast.literal_eval(term.sentiment)
+    # print(dic)
+    json_string = json.dumps(dic)
+    return render(request, 'results.html',
+                  {'term': term, 'json': json_string, 'percent': round(term.positivity*100, 1)})
 
 
 def about(request):

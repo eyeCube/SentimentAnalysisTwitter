@@ -19,7 +19,9 @@
         
 '''
 
+
 from textblob import TextBlob, tokenizers
+import numpy
 import pandas
 
 from .meta import *
@@ -32,7 +34,6 @@ from ..machinegym import fun
 from ..machinegym import fear
 from ..machinegym import safe
 from .grammar import PREFIX_QUALIFIERS, POSTFIX_QUALIFIERS
-
 
 class G: # global data stored here
     blob=None

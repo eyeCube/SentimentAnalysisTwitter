@@ -4,14 +4,14 @@ from .meta import *
 
 EMOTES=()
 
-HASHTAGS='''#safety #safetyfirst #security #covid #construction #health
-#safe #coronavirus #protection #work #i #training #love #k #staysafe
-#technology #hse #corona #family #business #engineering #safetytips
-#stayhome #home #fire #besafe #bhfyp #cctv #car #bhfyp #cars #emergency
-#homesecurity #ppe #design #education #roadsafety #life #like #sicurezza
-#kids #follow #industrial #firesafety #quality #travel #india #instagood
-#safetyofficer #securitysystem #accident #awareness #a #virus #indonesia
-#prevention #innovation #rescue #instagram #l #safetyfirst #safetyriding
+HASHTAGS='''#safety #safetyfirst #security 
+#safe #protection #training #staysafe
+#safetytips
+#stayhome #home #besafe
+#homesecurity #roadsafety 
+#firesafety #quality 
+#safetyofficer #securitysystem 
+#prevention #rescue #safetyfirst #safetyriding
 #safetyshoes #safetyboots #safetypin #safetyrazor #safetyharbor
 #safetyhunting #safety1st #safetycar #safetythird #safetymeeting
 #safetygear #safetytips #safetytraining #safetyglasses #safetybeach

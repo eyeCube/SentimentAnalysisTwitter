@@ -6,7 +6,6 @@ from os import path
 from ..NaiveBayesModel.PredictSentiment import predict_sentiment
 from sklearn.preprocessing import normalize
 
-
 sentiments = {
     0:'angry',
     1:'happy',
@@ -18,12 +17,12 @@ sentiments = {
     7:'bored'
 }
 
-normlization_values =[0.00000000e+00, 0.00000000e+00, 0.00000000e+00, 7.41499385e-02,
- 3.32240885e-01, 4.09668169e-04, 8.91151168e-01, 2.04834084e-03]
+normlization_values =[0, 0, 0.00503461, 0.15796098, 0, 0.5651353, 0.2718691, 0        ]
+normlization_values = np.zeros_like(normlization_values)
 
 # get tweet sentiment
 # input: sequence of tweets
-# output: percentage of positive tweets, most common emotion
+# output: percentage of positive tweets, [sentiments from most to least common]
 def get_sentiment(tweets):
     model_path = path.join(path.dirname(__file__), 'LR.pickle')
     with open(model_path, 'rb') as f:
@@ -39,16 +38,26 @@ def get_sentiment(tweets):
     machine_gym_score.reset_index(drop=True, inplace=True)
     predictors = pd.concat([NB_score, machine_gym_score.iloc[:,1:]], axis=1)
     results = model.predict(predictors)
-    results = np.subtract(np.divide(np.bincount(results, minlength=8), np.sum(np.bincount(results, minlength=8))), normlization_values)
-    most_frequent = np.argmax(results)
+    results = np.subtract(np.bincount(results, minlength=8), np.multiply(normlization_values, tweets.size))
+    if np.any(results < 0):
+        results = np.subtract(results, np.min(results))
+    results = np.append(results[:,np.newaxis],np.arange(results.shape[0])[:,np.newaxis], 1)
+    results[:,0] = np.divide(results[:,0], np.sum(results[:,0]))
+    most_frequent = {sentiments[x]:y for y, x in results}
 
     rating = predict_sentiment(tweets)
     rating = np.asarray(np.unique(rating, return_counts=True))
-    percentage_positive = rating[1, 1] / np.sum(rating[1,:])
-    return percentage_positive, sentiments[most_frequent]
+    if rating.shape[1] == 1:
+        if rating[0,0] == 4:
+            percentage_positive = 1
+        else:
+            percentage_positive = 0
+    else:
+        percentage_positive = rating[1, 1] / np.sum(rating[1,:])
+    return percentage_positive, most_frequent
 
 def predict_NB(data):
-    model_path = path.join(path.dirname(__file__), 'NB_model.pickle')
+    model_path = path.join(path.dirname(__file__), 'NB.pickle')
     vectorizer_path = path.join(path.dirname(__file__), 'vectorizer.pickle')
     with open(model_path, 'rb') as f:
         modelNB = pickle.load(f)
@@ -66,5 +75,6 @@ def predict_NB(data):
 
 if __name__ == '__main__':
    tweets = pd.read_csv('text.csv')['text']
+   #tweets = ['knteroristard68: #PushAwardsKathNiels https://t.co/B3930cYHrR #PepsiChallenge', '@KevLAbeast #CrystalPepsi let it rest for 20 years. than taste it again', 'New Post: #Security Officer (Lakewood) #Denver #Den #Hiring #Job https://t.co/qHZPepSi58']
    results = get_sentiment(tweets)
    print(results)

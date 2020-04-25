@@ -18,8 +18,7 @@ def send_email():
 
     for email in emails:
         print("Attempting to send email to", email.Email)
-        email.EmailSent = True
-        email.save()
+
 
         # customize url for user
         # /search/?q=realDonaldTrump&tweet_year=2020
@@ -29,6 +28,14 @@ def send_email():
             term=term_o.term,
             year=term_o.year
         )
+
+        if term_o.positivity is not None:
+            email.EmailSent = True
+            email.save()
+            print("Positivity value exists. Sending!")
+        else:
+            print("Positivity value does not exist. Skipping!")
+            continue
 
         html = render_to_string('email.html', {'url': new_url})
 

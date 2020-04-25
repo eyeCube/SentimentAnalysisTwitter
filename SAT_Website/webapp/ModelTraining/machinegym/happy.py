@@ -5,13 +5,12 @@ EMOTES=(":d",":D","^_^",": d",">3",":)","(:","=)","(=","=D","8)","=]",
         "8d","8D","8P",":P",":p","=P","=p","^^","8^d",":')","=')",)
 
 # (in order from highest to lowest match)
-HASHTAGS='''#happiness #love #happy #life #smile #instagood #motivation #family
-#photography #like #peace #instagram #inspiration #photooftheday #nature
-#beautiful #joy #travel #friends #picoftheday #positivevibes #lifestyle
-#fun #follow #goodvibes #selflove #beauty #art #bhfyp #health
-#positivity #loveyourself #me #fashion #goals #fitness #music #blessed
-#cute #christmas #gratitude #selfcare #likeforlikes #instadaily #freedom
-#meditation #style #believe #grateful #mindfulness #memories #girl #photo
+HASHTAGS='''#happiness #love #happy #smile 
+#joy #friends #positivevibes #lifestyle
+#fun #goodvibes #selflove #beauty #art 
+#positivity #loveyourself #goals #fitness #music 
+#cute #christmas #gratitude #selfcare 
+#grateful #mindfulness #memories 
 #friendship #wedding #selfie #passion #mindset #instalike #happinessishere
 #happinessquotes #happinessisachoice #happinessis #happinessoverload
 #happinessproject #happinesss #happinessiskey #happinesshomemade
