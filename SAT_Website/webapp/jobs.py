@@ -22,7 +22,11 @@ def send_email():
 
         # customize url for user
         # /search/?q=realDonaldTrump&tweet_year=2020
-        term_o = Terms.objects.using('tweets').get(id=email.term_id)
+        try:
+            term_o = Terms.objects.using('tweets').get(id=email.term_id)
+        except Terms.DoesNotExist:
+            pass
+
         new_url = url.substitute(
             site=current_site.domain,
             term=term_o.term,
