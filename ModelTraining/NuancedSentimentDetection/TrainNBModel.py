@@ -8,7 +8,7 @@ training_data['text'].replace(regex=True, inplace=True, to_replace=r'[^a-z\s]',
                      value='')  # Remove punctuation and numbers from tweets
 model, vectorizer = create_model(training_data)
 
-with open('NB_model.pickle', 'wb') as f:
+with open('NB.pickle', 'wb') as f:
     pickle.dump(model, f)
 
 with open('vectorizer.pickle', 'wb') as f:
