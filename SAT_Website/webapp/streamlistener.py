@@ -102,7 +102,7 @@ class TweetStreamListener(StreamListener):
     def print_tweets(self):
         for tweet in self.get_tweets():
             print(tweet)
-    
+
     # on success: StreamListener function
     def on_data(self, data) -> bool:
         '''
