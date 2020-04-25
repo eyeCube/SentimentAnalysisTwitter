@@ -57,7 +57,7 @@ def get_sentiment(tweets):
     return percentage_positive, most_frequent
 
 def predict_NB(data):
-    model_path = path.join(path.dirname(__file__), 'NB_model.pickle')
+    model_path = path.join(path.dirname(__file__), 'NB.pickle')
     vectorizer_path = path.join(path.dirname(__file__), 'vectorizer.pickle')
     with open(model_path, 'rb') as f:
         modelNB = pickle.load(f)
