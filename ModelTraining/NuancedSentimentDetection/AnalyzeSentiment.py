@@ -17,8 +17,8 @@ sentiments = {
     7:'bored'
 }
 
-normlization_values =[0.00000000e+00, 0.00000000e+00, 0.00000000e+00, 7.41499385e-02,
- 3.32240885e-01, 4.09668169e-04, 15.91151168e-01, 2.04834084e-03]
+normlization_values =[0, 0, 0.00503461, 0.15796098, 0, 0.5651353, 0.2718691, 0        ]
+normlization_values = np.zeros_like(normlization_values)
 
 # get tweet sentiment
 # input: sequence of tweets
