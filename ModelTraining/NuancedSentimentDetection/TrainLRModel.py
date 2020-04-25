@@ -5,7 +5,7 @@ import pickle
 model = LogisticRegression(max_iter=1000)
 data = pd.read_csv('test.csv')
 x = data.iloc[:,2:]
-y = pd.read_csv('NB_training_data.csv')['category']
+y = pd.read_csv('NB_data.csv')['category']
 print(y)
 model.fit(x, y)
 
