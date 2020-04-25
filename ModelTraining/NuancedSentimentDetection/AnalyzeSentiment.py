@@ -38,7 +38,7 @@ def get_sentiment(tweets):
     machine_gym_score.reset_index(drop=True, inplace=True)
     predictors = pd.concat([NB_score, machine_gym_score.iloc[:,1:]], axis=1)
     results = model.predict(predictors)
-    results = np.subtract(np.bincount(results, minlength=8), np.multiply(normlization_values, tweets.size[0]))
+    results = np.subtract(np.bincount(results, minlength=8), np.multiply(normlization_values, tweets.size))
     if np.any(results < 0):
         results = np.subtract(results, np.min(results))
     results = np.append(results[:,np.newaxis],np.arange(results.shape[0])[:,np.newaxis], 1)
