@@ -47,7 +47,7 @@ def prep_data_for_LR(data):
     mg_data = score_by_dataframe(data)
 
 if __name__ == '__main__':
-    #filter_tweets()
+    filter_tweets()
     data = pd.read_csv('NB_training_data.csv')
     prediction = predict_NB(data['text'])
     prediction2 = score_by_dataframe(pd.DataFrame(data['text']))
