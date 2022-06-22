@@ -7,7 +7,7 @@ idna==2.9
 joblib==0.14.1
 mysqlclient==1.4.6
 nltk==3.5
-numpy==1.18.3
+numpy==1.22.0
 oauthlib==3.1.0
 pandas==1.0.3
 pycld2==0.41
