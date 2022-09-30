@@ -4,7 +4,7 @@ chardet==3.0.4
 click==7.1.1
 Django==3.0.5
 idna==2.9
-joblib==0.14.1
+joblib==1.2.0
 mysqlclient==1.4.6
 nltk==3.5
 numpy==1.18.3
